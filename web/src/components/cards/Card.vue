@@ -1,6 +1,12 @@
 <template>
   <div class="card-component" :style="componentVars">
-    <b-card :title="title" class="mb-2">
+    <b-card
+      :title="title"
+      class="mb-2"
+      :style="{
+        width: width,
+      }"
+    >
       <template v-if="hasHeaderSlot" #header>
         <slot name="header"></slot>
       </template>
@@ -38,6 +44,11 @@ export default {
       default: false,
       required: false,
     },
+    width: {
+      type: String,
+      default: "100%",
+      required: false,
+    },
   },
   computed: {
     hasHeaderSlot() {
@@ -68,6 +79,7 @@ export default {
     heightComponent() {
       return this.centered ? "100vh" : "100%";
     },
+
     componentVars() {
       return {
         "--card-component-justify-content": this.justifyContentComponent,

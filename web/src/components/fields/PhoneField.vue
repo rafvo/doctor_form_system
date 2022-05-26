@@ -3,6 +3,7 @@
     <TextField
       v-model="Field"
       :autofocus="autofocus"
+      :bind-value="bindValue"
       :default-ref="defaultRef"
       :id="id"
       :label="label"
@@ -31,6 +32,11 @@ export default {
     autofocus: {
       type: Boolean,
       default: false,
+      required: false,
+    },
+     bindValue: {
+      type: [String, Number],
+      default: null,
       required: false,
     },
     defaultRef: {
@@ -81,11 +87,6 @@ export default {
     },
     vid: {
       type: String,
-      default: null,
-      required: false,
-    },
-    vModel: {
-      type: [String, Number],
       default: null,
       required: false,
     },
@@ -263,18 +264,13 @@ export default {
       return `${this.minMaxRule}|${this.rules}`;
     },
   },
-  watch: {
-    vModel() {
-      this.field = _cloneDeep(this.vModel);
-    },
-  },
   methods: {
     cleanMask(mask, { maskKey = "#" } = {}) {
       const splitedMask = _cloneDeep(mask.split(""));
       return splitedMask.filter((e) => e == maskKey).join("");
     },
     setField() {
-      const value = _cloneDeep(this.vModel);
+      const value = _cloneDeep(this.bindValue);
 
       if (this.withDDI) return Vue.filter("phoneCelphoneWithDDI")(value);
       if (this.withDDD) return Vue.filter("phoneCelphoneWithDDD")(value);
@@ -301,7 +297,7 @@ export default {
       this.$emit("input", payload);
     },
   },
-  created() {
+  mounted() {
     this.field = this.setField();
     this.dynamicMask = this.setDynamicMask();
   },

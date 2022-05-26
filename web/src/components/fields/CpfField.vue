@@ -1,8 +1,9 @@
 <template>
   <div class="cpf-field">
     <TextField
-      :v-model="Field"
+      v-model="Field"
       :autofocus="autofocus"
+      :bind-value="bindValue"
       default-rules="cpf"
       :default-ref="defaultRef"
       :id="id"
@@ -22,7 +23,6 @@
 <script>
 import Vue from "vue";
 import _cloneDeep from "lodash/cloneDeep";
-
 import TextField from "@/components/fields/TextField.vue";
 
 export default {
@@ -33,6 +33,11 @@ export default {
     autofocus: {
       type: Boolean,
       default: false,
+      required: false,
+    },
+    bindValue: {
+      type: [String, Number],
+      default: null,
       required: false,
     },
     defaultRef: {
@@ -58,6 +63,12 @@ export default {
     name: {
       type: String,
       default: null,
+      required: false,
+    },
+    /*emite o resultado sem máscara*/
+    noMaskResult: {
+      type: Boolean,
+      default: false,
       required: false,
     },
     placeholder: {
@@ -90,11 +101,6 @@ export default {
       default: null,
       required: false,
     },
-    vModel: {
-      type: [String, Number],
-      default: null,
-      required: false,
-    },
   },
   data() {
     return {
@@ -109,22 +115,30 @@ export default {
       set(payload) {
         this.field = payload;
 
-        this.emitInput();
+        this.setEmitInput();
       },
     },
-  },
-  watch: {
-    vModel() {
-      this.field = this.setField();
+    cleanField() {
+      if (!this.field) return "";
+
+      const item = this.field;
+      return item.replace(/[^0-9]/g, "");
     },
   },
   methods: {
     setField() {
-      const value = _cloneDeep(this.vModel);
+      const value = _cloneDeep(this.bindValue);
       return Vue.filter("cpfcnpj")(value);
     },
-    emitInput() {
-      this.$emit("input", this.field);
+    setEmitInput() {
+      if (this.noMaskResult) {
+        this.emitInput(this.cleanField); /*emitir sem máscara*/
+      } else {
+        this.emitInput(this.field); /*emitir com máscara*/
+      }
+    },
+    emitInput(payload) {
+      this.$emit("input", payload);
     },
   },
   mounted() {

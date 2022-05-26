@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="text-field">
     <b-row>
       <b-col>
         <b-form-group>
@@ -15,7 +15,7 @@
           >
             <b-form-input
               v-model="Field"
-              :value="vModel"
+              :value="bindValue"
               v-mask="mask"
               :ref="fieldRef"
               :id="uniqueKey"
@@ -43,6 +43,11 @@ export default {
     autofocus: {
       type: Boolean,
       default: false,
+      required: false,
+    },
+    bindValue: {
+      type: [String, Number],
+      default: null,
       required: false,
     },
     defaultRef: {
@@ -101,11 +106,6 @@ export default {
       required: false,
     },
     vid: {
-      type: String,
-      default: null,
-      required: false,
-    },
-    vModel: {
       type: String,
       default: null,
       required: false,
@@ -173,7 +173,7 @@ export default {
     },
   },
   created() {
-    this.field = _cloneDeep(this.vModel);
+    this.field = _cloneDeep(this.bindValue);
   },
 };
 </script>

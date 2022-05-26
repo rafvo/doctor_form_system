@@ -1,86 +1,121 @@
 <template>
   <div>
-    <ValidationObserver ref="observer">
-      <b-form @submit="insert">
-        <b-row>
-          <b-col>
-            <FormTitle title="Sobre o profissional" />
-          </b-col>
-        </b-row>
+    <SpinnerLoader
+      v-if="loading"
+      width="3rem"
+      height="3rem"
+      justify-content="center"
+    />
+    <template v-else>
+      <ValidationObserver ref="observer">
+        <b-form>
+          <b-row>
+            <b-col>
+              <FormTitle title="Sobre o profissional" />
+            </b-col>
+          </b-row>
 
-        <b-row>
-          <b-col>
-            <FormSubtitle title="Dados do profissional" />
-          </b-col>
-        </b-row>
+          <b-row>
+            <b-col>
+              <FormSubtitle title="Dados do profissional" />
+            </b-col>
+          </b-row>
 
-        <b-row>
-          <b-col>
-            <TextField
-              v-model="profissionals.nome"
-              label="Nome Completo"
-              placeholder="Digite o nome completo"
-              rules="required"
-              required-label
-            />
-          </b-col>
-        </b-row>
+          <b-row>
+            <b-col>
+              <TextField
+                v-model="profissional.nome"
+                :bind-value="profissional.nome"
+                label="Nome Completo"
+                placeholder="Digite o nome completo"
+                rules="required"
+                required-label
+              />
+            </b-col>
+          </b-row>
 
-        <b-row>
-          <b-col>
-            <CpfField
-              v-model="profissionals.cpf"
-              label="CPF"
-              placeholder="Digite o CPF"
-              rules="required"
-              required-label
-            />
-          </b-col>
-        </b-row>
+          <b-row>
+            <b-col>
+              <CpfField
+                v-model="profissional.cpf"
+                :bind-value="profissional.cpf"
+                label="CPF"
+                placeholder="Digite o CPF"
+                rules="required"
+                required-label
+                no-mask-result
+              />
+            </b-col>
+          </b-row>
 
-        <b-row>
-          <b-col>
-            <PhoneField
-              v-model="profissionals.phone"
-              label="Número de Telefone ou Celular"
-              rules="required"
-              required-label
-              no-mask-result
-              withDDD
-            />
-          </b-col>
-        </b-row>
+          <b-row>
+            <b-col>
+              <PhoneField
+                v-model="profissional.phone"
+                :bind-value="profissional.phone"
+                label="Número de Telefone ou Celular"
+                rules="required"
+                required-label
+                no-mask-result
+                withDDD
+              />
+            </b-col>
+          </b-row>
 
-        <b-row>
-          <b-col>
-            {{ profissionals }}
-          </b-col>
-        </b-row>
-      </b-form>
-    </ValidationObserver>
+          <b-row class="mt-3">
+            <b-col>
+              <CityDropdownField
+                v-model="profissional.cidadeId"
+                :bind-value="profissional.cidadeId"
+                label="Cidade"
+                required
+                with-label
+                with-state-field
+                live-search
+              />
+            </b-col>
+          </b-row>
+
+          <b-row>
+            <b-col>
+              {{ profissional }}
+            </b-col>
+          </b-row>
+        </b-form>
+      </ValidationObserver>
+    </template>
   </div>
 </template>
 
 <script>
+import SpinnerLoader from "@/components/loaders/SpinnerLoader.vue";
 import FormTitle from "@/components/typography/FormTitle.vue";
 import FormSubtitle from "@/components/typography/FormSubtitle.vue";
 import TextField from "@/components/fields/TextField.vue";
 import CpfField from "@/components/fields/CpfField.vue";
 import PhoneField from "@/components/fields/PhoneField.vue";
+import CityDropdownField from "@/components/fields/CityDropdownField.vue";
 import Profissionais from "@/domain/models/profissionais";
 
 export default {
   components: {
+    SpinnerLoader,
     FormTitle,
     FormSubtitle,
     TextField,
     CpfField,
     PhoneField,
+    CityDropdownField,
   },
   props: {
-    profissionals: {
+    profissional: {
       type: Object,
       default: () => new Profissionais(),
+      required: false,
+    },
+    loading: {
+      type: Boolean,
+      default: false,
       required: false,
     },
   },
