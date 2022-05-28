@@ -1,9 +1,9 @@
 import Vue from "vue";
 import App from "./App.vue";
-import "@/plugins/vue_bootstrap";
-import "@/plugins/vue_mask";
-import "@/plugins/vee_validate";
-import "@/plugins/v_money";
+import "@/plugins/bootstrapVue";
+import "@/plugins/vueMask";
+import "@/plugins/veeValidate";
+import "@/plugins/vMoney";
 import "@/directives";
 import "@/assets/scss/app.scss"
 import store from './store'

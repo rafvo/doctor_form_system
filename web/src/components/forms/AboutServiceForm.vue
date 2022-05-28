@@ -9,13 +9,13 @@
     <template v-else>
       <ValidationObserver ref="observer">
         <b-form>
-          <b-row>
+          <b-row class="mt-3">
             <b-col>
               <FormTitle title="Sobre o atendimento" />
             </b-col>
           </b-row>
 
-          <b-row>
+          <b-row class="mt-3">
             <b-col>
               <FormSubtitle title="Detalhes do atendimento" />
             </b-col>
@@ -34,18 +34,44 @@
             </b-col>
           </b-row>
 
-          {{ atendimento }}
+          <pre>{{ atendimento }}</pre>
 
-          <b-row>
-            <b-col>
+          <b-row class="mt-3">
+            <b-col cols="12">
               <MoneyField
                 v-model="atendimento.preco"
                 :bind-value="atendimento.preco"
-                label="Preço"
+                label="Informe o preço da consulta"
                 rules="required_money"
                 required-label
                 with-label
+                prefix-in-toolbar
               />
+            </b-col>
+          </b-row>
+
+          <b-row>
+            <b-col cols="12">
+              <PaymentMethodCheckboxField
+                v-model="atendimento.formasPagamentoAtendimentos"
+                required-list
+                with-field-label
+              />
+
+              <!-- <CheckboxListField
+                v-model="atendimento.teste"
+                :options="atendimento.formasPagamento"
+                :bind-value="atendimento.teste"
+                label="Informe o preço da consulta"
+                rules="required"
+                bind-value-prop="formaPagamentoId"
+                checked-value-prop="id"
+                checked-label-prop="nome"
+                unchecked-value-prop=""
+                unchecked-label-prop="nome"
+                required-label
+                with-label
+              /> -->
             </b-col>
           </b-row>
         </b-form>
@@ -60,6 +86,7 @@ import FormTitle from "@/components/typography/FormTitle.vue";
 import FormSubtitle from "@/components/typography/FormSubtitle.vue";
 import SpecialtyDropdownField from "@/components/fields/SpecialtyDropdownField.vue";
 import MoneyField from "@/components/fields/MoneyField.vue";
+import PaymentMethodCheckboxField from "@/components/fields/PaymentMethodCheckboxField.vue";
 import Atendimentos from "@/domain/models/atendimentos";
 
 export default {
@@ -69,6 +96,7 @@ export default {
     FormSubtitle,
     SpecialtyDropdownField,
     MoneyField,
+    PaymentMethodCheckboxField,
   },
   props: {
     atendimento: {
@@ -79,8 +107,8 @@ export default {
     loading: {
       type: Boolean,
       default: false,
-      required: false
-    }
+      required: false,
+    },
   },
 };
 </script>

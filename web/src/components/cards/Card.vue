@@ -79,7 +79,6 @@ export default {
     heightComponent() {
       return this.centered ? "100vh" : "100%";
     },
-
     componentVars() {
       return {
         "--card-component-justify-content": this.justifyContentComponent,

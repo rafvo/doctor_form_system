@@ -21,20 +21,20 @@
             </b-col>
           </b-row>
 
-          <b-row>
+          <b-row :class="marginTopFields">
             <b-col>
               <TextField
                 v-model="profissional.nome"
                 :bind-value="profissional.nome"
                 label="Nome Completo"
                 placeholder="Digite o nome completo"
-                rules="required"
+                rules="required|min:3|max:48"
                 required-label
               />
             </b-col>
           </b-row>
 
-          <b-row>
+          <b-row :class="marginTopFields">
             <b-col>
               <CpfField
                 v-model="profissional.cpf"
@@ -48,7 +48,7 @@
             </b-col>
           </b-row>
 
-          <b-row>
+          <b-row :class="marginTopFields">
             <b-col>
               <PhoneField
                 v-model="profissional.phone"
@@ -62,7 +62,7 @@
             </b-col>
           </b-row>
 
-          <b-row class="mt-3">
+          <b-row :class="marginTopFields">
             <b-col>
               <CityDropdownField
                 v-model="profissional.cidadeId"
@@ -117,6 +117,18 @@ export default {
       type: Boolean,
       default: false,
       required: false,
+    },
+    distanceFieldsInPixels: {
+      type: [String, Number],
+      default: 30,
+      required: false,
+    },
+  },
+  computed: {
+    marginTopFields() {
+      return this.distanceFieldsInPixels && this.distanceFieldsInPixels <= 200
+        ? `mt-${this.distanceFieldsInPixels}`
+        : 30;
     },
   },
   methods: {

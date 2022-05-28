@@ -1,14 +1,29 @@
 <template>
-  <div>
+  <div class="text-field">
     <label
       v-if="withLabel"
       :class="{ required: requiredLabel }"
       :for="uniqueRef"
       >{{ label }}</label
     >
-    
     <ValidationProvider v-slot="{ errors }" :name="label" :rules="allRules">
+      <b-button-toolbar v-if="prefixInToolbar">
+        <b-button-group class="mr-1"></b-button-group>
+        <b-input-group :prepend="prefix">
+          <money
+            class="form-control"
+            v-model="Field"
+            v-bind="money"
+            :ref="uniqueRef"
+            :id="uniqueKey"
+            :name="uniqueNameKey"
+            :autofocus="focus"
+            @blur="emitBlur"
+          ></money>
+        </b-input-group>
+      </b-button-toolbar>
       <money
+        v-else
         class="form-control"
         v-model="Field"
         v-bind="money"
@@ -114,6 +129,11 @@ export default {
       default: "R$ ",
       required: false,
     },
+    prefixInToolbar: {
+      type: Boolean,
+      default: false,
+      required: false,
+    },
     suffix: {
       type: String,
       default: "",
@@ -197,7 +217,7 @@ export default {
       return {
         decimal: this.decimal,
         thousands: this.thousands,
-        prefix: this.prefix,
+        prefix: !this.prefixInToolbar ? this.prefix : "",
         suffix: this.suffix,
         precision: this.precision,
         masked: this.masked,
@@ -219,4 +239,8 @@ export default {
 </script>
 
 <style scoped>
+
+.btn-toolbar {
+  display: inherit!important;
+}
 </style>
