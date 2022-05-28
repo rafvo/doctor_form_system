@@ -1,5 +1,5 @@
 import Profissionais from "./profissionais";
-import FormasPagamento from "./formas_pagamento";
+import FormaPagamentoAtendimento from "./formaPagamentoAtendimento";
 
 export default class Atendimentos {
   constructor({
@@ -7,15 +7,13 @@ export default class Atendimentos {
     profissional = new Profissionais(),
     profissionalId = null,
     preco = null,
-    formaPagamento = new FormasPagamento(),
-    formaPagamentoId = null,
+    formasPagamentoAtendimentos = [],
   } = {}) {
     this.id = id;
     this.profissional = profissional;
     this.profissionalId = profissionalId;
     this.preco = preco;
-    this.formaPagamento = formaPagamento;
-    this.formaPagamentoId = formaPagamentoId;
+    this.formasPagamentoAtendimentos = formasPagamentoAtendimentos;
   }
 
   /*seta as propriedades da instância com a validação*/
@@ -38,13 +36,23 @@ export default class Atendimentos {
       ? parseInt(json["profissionalId"])
       : null;
     model.preco = json["preco"] ? parseFloat(json["preco"]) : null;
-    model.formaPagamento = json["formaPagamento"]
-      ? FormasPagamento.fromJson(json["formaPagamento"])
-      : null;
-    model.formaPagamentoId = json["formaPagamentoId"]
-      ? parseInt(json["formaPagamentoId"])
-      : null;
+
+    if (json["formasPagamentoAtendimentos"]) {
+      model.formasPagamentoAtendimentos = json[
+        "formasPagamentoAtendimentos"
+      ].map((e) => FormaPagamentoAtendimento.fromJson(e));
+    }
 
     return model;
   }
 }
+
+/*
+    // model.formasPagamento = json["formasPagamento"]
+    //   ? FormasPagamento.fromJson(json["formaPagamento"])
+    //   : null;
+    // model.formaPagamentoId = json["formaPagamentoId"]
+    //   ? parseInt(json["formaPagamentoId"])
+    //   : null;
+
+    */
