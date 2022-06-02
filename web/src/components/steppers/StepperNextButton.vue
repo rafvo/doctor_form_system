@@ -1,5 +1,6 @@
 <template>
   <div>
+    <StepperProgressBar class="mb-3" v-if="withProgress" />
     <RoundedButton
       button-classes="btn-primary-0"
       block
@@ -15,10 +16,12 @@
 
 <script>
 import RoundedButton from "@/components/buttons/RoundedButton.vue";
+import StepperProgressBar from "@/components/steppers/StepperProgressBar.vue";
 
 export default {
   components: {
     RoundedButton,
+    StepperProgressBar,
   },
   props: {
     title: {
@@ -31,14 +34,19 @@ export default {
       default: true,
       required: false,
     },
+    withProgress: {
+      type: Boolean,
+      default: false,
+      required: false,
+    },
   },
   methods: {
     onClickPrevent(event) {
       this.$emit("click:prevent", event);
-      if (this.emitRootEvent) this.rootEmit(event);
+      if (this.emitRootEvent) this.rootEmit();
     },
-    rootEmit(event) {
-      this.$root.$emit("stepperNextButton", event);
+    rootEmit() {
+      this.$store.dispatch("stepper/emitNextButtonClick");
     },
   },
 };

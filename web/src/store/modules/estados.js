@@ -39,7 +39,7 @@ export default {
         commit("add", model);
       }
     },
-    getAll({ dispatch }, { stateFilter = new EstadosFiltros() }) {
+    getAll({ dispatch }, { stateFilter = new EstadosFiltros() } = {}) {
       return new Promise((resolve, reject) => {
         Axios.get("/estados", { params: stateFilter })
           .then((response) => {

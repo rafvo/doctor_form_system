@@ -16,8 +16,6 @@
       @input="emitInput"
       @object="emitObject"
     />
-
-    {{ installments }}
   </div>
 </template>
 
@@ -67,7 +65,7 @@ export default {
     },
     fieldLabel: {
       type: String,
-      default: "{Campo}",
+      default: "Parcelamento em",
       required: false,
     },
     rules: {

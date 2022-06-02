@@ -1,9 +1,5 @@
 <template>
-  <IconButton
-    icon="chevron-left"
-    @click="onClick"
-    @click:prevent="onClickPrevent"
-  />
+  <IconButton icon="chevron-left" @click:prevent="onClickPrevent" />
 </template>
 
 <script>
@@ -13,17 +9,20 @@ export default {
   components: {
     IconButton,
   },
+  props: {
+    emitRootEvent: {
+      type: Boolean,
+      default: true,
+      required: false,
+    },
+  },
   methods: {
-    onClick(event) {
-      this.$emit("click", event);
-      if (this.emitRootEvent) this.rootEmit(event);
-    },
-    onClickPrevent(event) {
+     onClickPrevent(event) {
       this.$emit("click:prevent", event);
-      if (this.emitRootEvent) this.rootEmit(event);
+      if (this.emitRootEvent) this.rootEmit();
     },
-    rootEmit(event) {
-      this.$root.$emit("stepperPreviousButton", event);
+    rootEmit() {
+      this.$store.dispatch("stepper/emiPreviousButtonClick");
     },
   },
 };

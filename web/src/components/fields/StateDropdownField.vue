@@ -171,21 +171,22 @@ export default {
     getAll() {
       console.log("load states");
       this.loading = true;
-      setTimeout(() => {
-        this.$store.dispatch("estados/all", Estados.getAll());
-        this.loading = false;
-      }, 2000);
 
-      // this.$store
-      //   .dispatch("states/getAll")
-      //   .then((response) => {
-      //     console.log(response);
-      //     this.loading = false;
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //     this.loading = false;
-      //   });
+      this.$store
+        .dispatch("estados/getAll")
+        .then((response) => {
+          console.log(response);
+          this.loading = false;
+        })
+        .catch((error) => {
+          console.log(error);
+          this.loading = false;
+        });
+
+      // setTimeout(() => {
+      //   this.$store.dispatch("estados/all", Estados.getAll());
+      //   this.loading = false;
+      // }, 2000);
     },
     setState(payload) {
       this.State = payload;

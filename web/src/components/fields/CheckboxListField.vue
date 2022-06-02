@@ -16,6 +16,7 @@
           :uncheckedValue="uncheckedValue(item)"
           :checkedLabel="checkedLabel(item)"
           :uncheckedLabel="uncheckedLabel(item)"
+          :fieldLabel="fieldLabel"
           :rules="rules"
           with-true-false-label
           @checked="add($event, key)"

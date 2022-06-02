@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Stepper from "@/domain/objects/stepper";
+// import Stepper from "@/domain/objects/stepper";
 
 export default {
   props: {
@@ -15,20 +15,13 @@ export default {
       required: false,
     },
   },
-  data() {
-    return {
-      stepper: new Stepper(),
-    };
-  },
   computed: {
+    stepper() {
+      return this.$store.state.stepper.model;
+    },
     stepEnable() {
       return this.stepper.currentStep == this.step;
     },
-  },
-  mounted() {
-    this.$root.$on("stepper", (stepper) => {
-      this.stepper = Stepper.fromJson(stepper);
-    });
   },
 };
 </script>

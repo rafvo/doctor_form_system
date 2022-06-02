@@ -9,19 +9,19 @@
     <template v-else>
       <ValidationObserver ref="observer">
         <b-form>
-          <b-row>
+          <b-row  class="mb-3">
             <b-col>
               <FormTitle title="Sobre o atendimento" />
             </b-col>
           </b-row>
 
-          <b-row>
+          <b-row class="mb-3">
             <b-col>
               <FormSubtitle title="Detalhes do atendimento" />
             </b-col>
           </b-row>
 
-          <b-row class="mt-3">
+          <b-row>
             <b-col>
               <SpecialtyDropdownField
                 v-model="atendimento.profissional.especialidadeId"
@@ -48,7 +48,7 @@
             </b-col>
           </b-row>
 
-          <b-row>
+          <b-row class="mt-3">
             <b-col cols="12">
               <PaymentMethodCheckboxField
                 v-model="atendimento.formasPagamentoAtendimentos"
@@ -105,18 +105,3 @@ export default {
 
 <style>
 </style>
-
-                  <!-- <CheckboxListField
-                v-model="atendimento.teste"
-                :options="atendimento.formasPagamento"
-                :bind-value="atendimento.teste"
-                label="Informe o preço da consulta"
-                rules="required"
-                bind-value-prop="formaPagamentoId"
-                checked-value-prop="id"
-                checked-label-prop="nome"
-                unchecked-value-prop=""
-                unchecked-label-prop="nome"
-                required-label
-                with-label
-              /> -->

@@ -132,21 +132,22 @@ export default {
   methods: {
     getAll() {
       this.loading = true;
-      setTimeout(() => {
-        this.$store.dispatch("especialidades/all", Especialidades.getAll());
-        this.loading = false;
-      }, 2000);
 
-      // this.$store
-      //   .dispatch("especialidades/getAll")
-      //   .then((response) => {
-      //     console.log(response);
-      //     this.loading = false;
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //     this.loading = false;
-      //   });
+      this.$store
+        .dispatch("especialidades/getAll")
+        .then((response) => {
+          console.log(response);
+          this.loading = false;
+        })
+        .catch((error) => {
+          console.log(error);
+          this.loading = false;
+        });
+
+      //    setTimeout(() => {
+      //   this.$store.dispatch("especialidades/all", Especialidades.getAll());
+      //   this.loading = false;
+      // }, 2000);
     },
     setId(payload) {
       this.Id = payload;

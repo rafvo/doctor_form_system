@@ -36,6 +36,7 @@
 </template>
 
 <script>
+// import StepperEvent from "@/events/stepper";
 import Stepper from "@/domain/objects/stepper";
 import StepperPreviousButton from "./StepperPreviousButton.vue";
 import StepperNextButton from "./StepperNextButton.vue";
@@ -104,6 +105,12 @@ export default {
     isValidNextStep() {
       return Boolean(this.step != this.steps);
     },
+    previousClickEvent() {
+      return this.$store.state.stepper.previousClick;
+    },
+    nextClickEvent() {
+      return this.$store.state.stepper.nextClick;
+    },
   },
   watch: {
     currentStep() {
@@ -112,12 +119,25 @@ export default {
     step() {
       this.rootEmit();
     },
+    previousClickEvent() {
+      if (this.isValidPreviousStep) {
+        this.previousStep();
+      }
+    },
+    nextClickEvent() {
+      if (this.isValidNextStep) {
+        this.nextStep();
+      }
+    },
   },
   methods: {
     rootEmit() {
-      this.$root.$emit(
-        "stepper",
-        new Stepper({ currentStep: this.step, totalSteps: this.steps })
+      this.$store.dispatch(
+        "stepper/emitModel",
+        new Stepper({
+          currentStep: this.step,
+          totalSteps: this.steps,
+        })
       );
     },
     validate() {
@@ -138,27 +158,31 @@ export default {
   },
   mounted() {
     this.step = this.currentStep;
-
-    this.$root.$off("stepperPreviousButton");
-    this.$root.$on("stepperPreviousButton", (event) => {
-      console.log(event);
-
-      if (this.isValidPreviousStep) {
-        this.previousStep();
-      }
-    });
-
-    this.$root.$off("stepperNextButton");
-    this.$root.$on("stepperNextButton", (event) => {
-      console.log(event);
-
-      if (this.isValidNextStep) {
-        this.nextStep();
-      }
-    });
+    this.rootEmit();
   },
 };
 </script>
 
 <style>
 </style>
+
+<!--
+
+    // StepperEvent.onStepperPreviousButton((event) => {
+    //   console.log(event);
+    //   if (this.isValidPreviousStep) {
+    //     this.previousStep();
+    //   }
+    // });
+
+    // StepperEvent.onStepperNextButton((event) => {
+    //   console.log(event);
+    //   if (this.isValidNextStep) {
+    //     this.nextStep();
+    //   }
+    // });
+      // StepperEvent.emitStepper(
+      //   new Stepper({ currentStep: this.step, totalSteps: this.steps })
+      // );
+
+      -->

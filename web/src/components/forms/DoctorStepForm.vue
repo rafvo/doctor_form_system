@@ -1,8 +1,8 @@
 <template>
   <div>
     <Stepper :steps="3">
-      <Card centered>
-        <StepperContent step="1">
+      <StepperContent step="1">
+        <Card>
           <b-row>
             <b-col cols="12" xs="12" md="6">
               <DoctorAboutProfessionalForm
@@ -10,7 +10,7 @@
                 :loading="loading"
               >
                 <template #submitButton>
-                  <StepperNextButton class="mt-5" />
+                  <StepperNextButton class="mt-5" with-progress />
                 </template>
               </DoctorAboutProfessionalForm>
             </b-col>
@@ -18,9 +18,12 @@
               <ImageRender image-loader-computed-prop="doctor1" />
             </b-col>
           </b-row>
-        </StepperContent>
+        </Card>
+      </StepperContent>
 
-        <StepperContent step="2">
+      <StepperContent step="2">
+        <StepperPreviousButton />
+        <Card>
           <b-row>
             <b-col cols="12" xs="12" md="6">
               <DoctorAboutServiceForm
@@ -28,7 +31,7 @@
                 :loading="loading"
               >
                 <template #submitButton>
-                  <StepperNextButton class="mt-5" />
+                  <StepperNextButton class="mt-5" with-progress />
                 </template>
               </DoctorAboutServiceForm>
             </b-col>
@@ -36,9 +39,12 @@
               <ImageRender image-loader-computed-prop="doctor2" />
             </b-col>
           </b-row>
-        </StepperContent>
+        </Card>
+      </StepperContent>
 
-        <StepperContent step="3">
+      <StepperContent step="3">
+        <StepperPreviousButton />
+        <Card>
           <b-row>
             <b-col cols="12" xs="12" md="6">
               <DoctorFormReview :atendimento="atendimento" />
@@ -47,8 +53,8 @@
               <ImageRender image-loader-computed-prop="doctor3" />
             </b-col>
           </b-row>
-        </StepperContent>
-      </Card>
+        </Card>
+      </StepperContent>
     </Stepper>
   </div>
 </template>
@@ -62,6 +68,7 @@ import DoctorAboutProfessionalForm from "./DoctorAboutProfessionalForm.vue";
 import DoctorAboutServiceForm from "./DoctorAboutServiceForm.vue";
 import DoctorFormReview from "./DoctorFormReview.vue";
 import Atendimentos from "@/domain/models/atendimentos";
+import StepperPreviousButton from "@/components/steppers/StepperPreviousButton.vue";
 import StepperNextButton from "@/components/steppers/StepperNextButton.vue";
 
 export default {
@@ -73,6 +80,7 @@ export default {
     DoctorAboutProfessionalForm,
     DoctorAboutServiceForm,
     DoctorFormReview,
+    StepperPreviousButton,
     StepperNextButton,
   },
   props: {
@@ -93,17 +101,3 @@ export default {
 
 <style>
 </style>
-
-    <!-- <Card>
-      <DoctorAboutProfessionalForm
-        :profissional="atendimento.profissional"
-        :loading="loading"
-      >
-      </DoctorAboutProfessionalForm>
-    </Card>
-    <Card>
-      <DoctorAboutServiceForm :atendimento="atendimento" :loading="loading" />
-    </Card>
-    <Card>
-      <DoctorFormReview :atendimento="atendimento" />
-    </Card> -->

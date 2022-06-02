@@ -241,23 +241,25 @@ export default {
       return isLoaded;
     },
     getByStateId(stateId) {
-      console.log("load cities");
       this.loading = true;
-      setTimeout(() => {
-        this.$store.dispatch("cidades/all", Cidades.getByStateId(stateId));
-        this.loading = false;
-      }, 2000);
 
-      // this.$store
-      //   .dispatch("cidades/getAll", { cityFilter: this.cityFilter)
-      //   .then((response) => {
-      //     console.log(response);
-      //     this.loading = false;
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //     this.loading = false;
-      //   });
+      this.$store
+        .dispatch("cidades/getAll", {
+          cityFilter: new CidadesFiltros({ estadoId: stateId }),
+        })
+        .then((response) => {
+          console.log(response);
+          this.loading = false;
+        })
+        .catch((error) => {
+          console.log(error);
+          this.loading = false;
+        });
+
+      //    setTimeout(() => {
+      //   this.$store.dispatch("cidades/all", Cidades.getByStateId(stateId));
+      //   this.loading = false;
+      // }, 2000);
     },
     setCity(payload) {
       this.City = payload;
@@ -278,25 +280,3 @@ export default {
 
 <style>
 </style>
-
-<!--
-  watch: {
-    // fieldReadonly() {
-    //   if (!this.oldCityId && this.fieldReadonly) {
-    //     this.city = new Cidades();
-    //     this.state = new Estados();
-    //   }
-    // },
-    // textReadonly() {
-    //   if (!this.oldCityId && this.textReadonly) {
-    //     this.city = new Cidades();
-    //     this.state = new Estados();
-    //   }
-    // },
-    // cityId() {
-    //   const model = this.$store.state.cidades.all[this.cityId];
-    //   if (!model) this.getByCityState();
-    // },
-  },
-
-  -->

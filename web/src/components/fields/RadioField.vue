@@ -1,17 +1,16 @@
 <template>
-  <InlineRow>
-    <label
-      v-if="withFieldLabel"
-      :class="{ required: requiredLabel }"
-      class="mr-5"
-      >{{ fieldLabel }}</label
+  <div>
+    <b-form-group
+      :class="{ 'inline-block': inlineOptions && inlineLabel }"
+      v-slot="{ ariaDescribedby }"
     >
-
-    <ValidationProvider v-slot="{ errors }" :name="label" :rules="rules">
-      <b-form-group
-        :class="{ 'inline-block': inlineOptions && inlineLabel }"
-        v-slot="{ ariaDescribedby }"
-      >
+      <ValidationProvider v-slot="{ errors }" :name="fieldLabel" :rules="rules">
+        <label
+          v-if="withFieldLabel"
+          :class="{ required: requiredLabel }"
+          class="mr-5"
+          >{{ fieldLabel }}</label
+        >
         <b-form-radio-group
           :class="{ 'd-flex flex-direction-row': inlineOptions }"
           :id="uniqueKey"
@@ -27,19 +26,17 @@
             <span class="ml-5 mr-10">{{ opt[labelOptionKey] }}</span>
           </b-form-radio>
         </b-form-radio-group>
-      </b-form-group>
-      <VeeValidateErrorMessage :vv-errors="errors" />
-    </ValidationProvider>
-  </InlineRow>
+        <VeeValidateErrorMessage :vv-errors="errors" />
+      </ValidationProvider>
+    </b-form-group>
+  </div>
 </template>
 
 <script>
-import InlineRow from "@/components/rows/InlineRow.vue";
 import VeeValidateErrorMessage from "@/components/veeValidate/VeeValidateErrorMessage";
 
 export default {
   components: {
-    InlineRow,
     VeeValidateErrorMessage,
   },
   props: {
@@ -76,7 +73,7 @@ export default {
       default: null,
       required: false,
     },
-    label: {
+    fieldLabel: {
       type: String,
       default: "{Campo}",
       required: false,

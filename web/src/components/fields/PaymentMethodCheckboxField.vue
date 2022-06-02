@@ -36,9 +36,11 @@
           <template slot="extra" slot-scope="{ item, index }">
             <template v-if="item.formaPagamentoId == 3">
               <InstallmentsRadioField
+                :bind-value="item.parcelamentoEm"
                 :total="item.formaPagamento.parcelamentoMaximo"
                 :with-interest="item.formaPagamento.comJuros"
                 rules="required"
+                with-field-label
                 @input="setInstallmentNumber($event, index)"
               />
             </template>
@@ -53,7 +55,7 @@
 
 <script>
 import { exist } from "@/util/exist";
-// import _cloneDeep from "lodash/cloneDeep";
+import _cloneDeep from "lodash/cloneDeep";
 import SpinnerLoader from "@/components/loaders/SpinnerLoader.vue";
 import CheckboxListField from "./CheckboxListField.vue";
 import InstallmentsRadioField from "./InstallmentsRadioField.vue";
@@ -105,12 +107,6 @@ export default {
     existListModel() {
       return exist(this.listModel);
     },
-    // paymentMethods() {
-    //   return Object.values(this.$store.state.hability.all);
-    // },
-    // defaultChecked() {
-    //   return Object.values(this.checked);
-    // },
     requiredListRule() {
       return this.requiredList ? "required" : "";
     },
@@ -119,25 +115,6 @@ export default {
     },
   },
   methods: {
-    getAttendanceWithPaymentMethods() {
-      this.loading = true;
-      setTimeout(() => {
-        this.listModel =
-          FormaPagamentoAtendimento.getAttendanceWithPaymentMethods();
-        this.loading = false;
-      }, 1000);
-
-      // this.$store
-      //   .dispatch("hability/getHabilityWorker", this.workerId)
-      //   .then((data) => {
-      //     this.listModel = data;
-
-      //     this.loading = false;
-      //   })
-      //   .catch((error) => {
-      //     this.loading = false;
-      //   });
-    },
     setCheckedObject(payload) {
       this.checkedObject = payload;
     },
@@ -157,47 +134,10 @@ export default {
     },
   },
   mounted() {
-    if(!this.existListModel) this.getAttendanceWithPaymentMethods();
+    this.listModel = _cloneDeep(FormaPagamentoAtendimento.getAttendanceWithPaymentMethods());
   },
 };
 </script>
 
 <style>
 </style>
-
-<!--
-             <CheckboxListField
-            v-model="checked"
-            :default-checked="defaultChecked"
-            :default-list="listModel"
-            :false-value="null"
-            :rules="requiredItemsRule"
-            default-value-key-prop="id_hability"
-            true-label-key-prop="name"
-            false-label-key-prop="name"
-            field-label-prop="name"
-            true-value-key-prop="id"
-            true-value-in-list
-            field-label-in-list
-            emit-checked-object
-            @oldList="emitOldList"
-            @oldChecked="emitOldChecked"
-            @input="emitInput"
-          >-->
-            <!-- <template slot="extra" slot-scope="{ item, index }">
-              <div class="row">
-                <div class="col-md-5">
-                  <text-field-a
-                    :default-value="item.grade"
-                    v-model="listModel[index].grade"
-                    :field-readonly="readonlyGrade(index)"
-                    :reset="resetGrade(index)"
-                    :focus="!readonlyGrade(index)"
-                    placeholder="0 a 10 (Nota)"
-                    label="Nota da Habilidade"
-                    rules="numeric|max:2|max_value:10"
-                    @input="setGrade($event, index)"
-                  />
-                </div>
-              </div>
-            </template> -->
