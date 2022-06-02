@@ -21,64 +21,71 @@
             </b-col>
           </b-row>
 
-          <b-row :class="marginTopFields">
-            <b-col>
-              <TextField
-                v-model="profissional.nome"
-                :bind-value="profissional.nome"
-                label="Nome Completo"
-                placeholder="Digite o nome completo"
-                rules="required|min:3|max:48"
-                required-label
-              />
-            </b-col>
-          </b-row>
-
-          <b-row :class="marginTopFields">
-            <b-col>
-              <CpfField
-                v-model="profissional.cpf"
-                :bind-value="profissional.cpf"
-                label="CPF"
-                placeholder="Digite o CPF"
-                rules="required"
-                required-label
-                no-mask-result
-              />
-            </b-col>
-          </b-row>
-
-          <b-row :class="marginTopFields">
-            <b-col>
-              <PhoneField
-                v-model="profissional.phone"
-                :bind-value="profissional.phone"
-                label="Número de Telefone ou Celular"
-                rules="required"
-                required-label
-                no-mask-result
-                withDDD
-              />
-            </b-col>
-          </b-row>
-
-          <b-row :class="marginTopFields">
-            <b-col>
-              <CityDropdownField
-                v-model="profissional.cidadeId"
-                :bind-value="profissional.cidadeId"
-                label="Cidade"
-                required
-                with-label
-                with-state-field
-                live-search
-              />
-            </b-col>
-          </b-row>
-
           <b-row>
-            <b-col>
-              {{ profissional }}
+            <b-col cols="12" xs="12" md="6">
+              <b-row :class="marginTopFields">
+                <b-col>
+                  <TextField
+                    v-model="profissional.nome"
+                    :bind-value="profissional.nome"
+                    label="Nome Completo"
+                    placeholder="Digite o nome completo"
+                    rules="required|min:3|max:48"
+                    required-label
+                  />
+                </b-col>
+              </b-row>
+
+              <b-row :class="marginTopFields">
+                <b-col>
+                  <CpfField
+                    v-model="profissional.cpf"
+                    :bind-value="profissional.cpf"
+                    label="CPF"
+                    placeholder="Digite o CPF"
+                    rules="required"
+                    required-label
+                    no-mask-result
+                  />
+                </b-col>
+              </b-row>
+
+              <b-row :class="marginTopFields">
+                <b-col>
+                  <PhoneField
+                    v-model="profissional.phone"
+                    :bind-value="profissional.phone"
+                    label="Número de Telefone ou Celular"
+                    rules="required"
+                    required-label
+                    no-mask-result
+                    withDDD
+                  />
+                </b-col>
+              </b-row>
+
+              <b-row :class="marginTopFields">
+                <b-col>
+                  <CityDropdownField
+                    v-model="profissional.cidadeId"
+                    :city-id="profissional.cidadeId"
+                    label="Cidade"
+                    required
+                    with-label
+                    with-state-field
+                    live-search
+                  />
+                </b-col>
+              </b-row>
+
+              <!-- <b-row>
+                <b-col>
+                  {{ profissional }}
+                </b-col>
+              </b-row> -->
+            </b-col>
+            <b-col cols="12" xs="12" md="6">
+              <ImageRender image-loader-computed-prop="doctor1" />
             </b-col>
           </b-row>
         </b-form>
@@ -96,6 +103,7 @@ import CpfField from "@/components/fields/CpfField.vue";
 import PhoneField from "@/components/fields/PhoneField.vue";
 import CityDropdownField from "@/components/fields/CityDropdownField.vue";
 import Profissionais from "@/domain/models/profissionais";
+import ImageRender from "@/components/images/ImageRender.vue";
 
 export default {
   components: {
@@ -106,6 +114,7 @@ export default {
     CpfField,
     PhoneField,
     CityDropdownField,
+    ImageRender,
   },
   props: {
     profissional: {

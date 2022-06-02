@@ -1,7 +1,9 @@
 <template>
-  <div>
-    <h6>{{ title }}</h6>
-  </div>
+  <b-row class="title">
+    <b-col cols="12">
+      <h6 class="form-title">{{ title }}</h6>
+    </b-col>
+  </b-row>
 </template>
 
 <script>
@@ -16,5 +18,5 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 </style>

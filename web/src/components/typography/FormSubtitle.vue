@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h6>{{ title }}</h6>
+  <div class="subtitle">
+    <h6 class="form-subtitle">{{ title }}</h6>
   </div>
 </template>
 

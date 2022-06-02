@@ -1,0 +1,38 @@
+.title {
+    font-family: 'Comfortaa', cursive;
+}
+
+.form-title {
+    font-size: 2.5rem!important;
+    color: $primary_0!important;
+    font-weight: 500!important;
+}
+
+.subtitle {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.form-subtitle {
+    font-size: 1.5rem!important;
+    color: $black!important;
+    font-weight: 500!important;
+}
+
+.font-weight-bold {
+    font-weight: bold;
+}
+
+.comma-after:after {
+    content: ",";
+    margin-right: 5px;
+}
+
+.feature-before:before{
+    content: "-";
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.space-before:before {
+    content: " ";
+}

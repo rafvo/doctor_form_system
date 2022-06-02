@@ -9,69 +9,62 @@
     <template v-else>
       <ValidationObserver ref="observer">
         <b-form>
-          <b-row class="mt-3">
+          <b-row>
             <b-col>
               <FormTitle title="Sobre o atendimento" />
             </b-col>
           </b-row>
 
-          <b-row class="mt-3">
+          <b-row>
             <b-col>
               <FormSubtitle title="Detalhes do atendimento" />
             </b-col>
           </b-row>
 
-          <b-row class="mt-3">
-            <b-col>
-              <SpecialtyDropdownField
-                v-model="atendimento.profissional.especialidadeId"
-                :bind-value="atendimento.profissional.especialidadeId"
-                label="Especialidade principal"
-                required
-                with-label
-                live-search
-              />
-            </b-col>
-          </b-row>
-
-          <pre>{{ atendimento }}</pre>
-
-          <b-row class="mt-3">
-            <b-col cols="12">
-              <MoneyField
-                v-model="atendimento.preco"
-                :bind-value="atendimento.preco"
-                label="Informe o preço da consulta"
-                rules="required_money"
-                required-label
-                with-label
-                prefix-in-toolbar
-              />
-            </b-col>
-          </b-row>
-
           <b-row>
-            <b-col cols="12">
-              <PaymentMethodCheckboxField
-                v-model="atendimento.formasPagamentoAtendimentos"
-                required-list
-                with-field-label
-              />
+            <b-col cols="12" xs="12" md="6">
+              <b-row class="mt-3">
+                <b-col>
+                  <SpecialtyDropdownField
+                    v-model="atendimento.profissional.especialidadeId"
+                    :specialty-id="atendimento.profissional.especialidadeId"
+                    label="Especialidade principal"
+                    required
+                    with-label
+                    live-search
+                  />
+                </b-col>
+              </b-row>
 
-              <!-- <CheckboxListField
-                v-model="atendimento.teste"
-                :options="atendimento.formasPagamento"
-                :bind-value="atendimento.teste"
-                label="Informe o preço da consulta"
-                rules="required"
-                bind-value-prop="formaPagamentoId"
-                checked-value-prop="id"
-                checked-label-prop="nome"
-                unchecked-value-prop=""
-                unchecked-label-prop="nome"
-                required-label
-                with-label
-              /> -->
+              <b-row class="mt-3">
+                <b-col cols="12">
+                  <MoneyField
+                    v-model="atendimento.preco"
+                    :bind-value="atendimento.preco"
+                    label="Informe o preço da consulta"
+                    rules="required_money"
+                    required-label
+                    with-label
+                    prefix-in-toolbar
+                  />
+                </b-col>
+              </b-row>
+
+              <b-row>
+                <b-col cols="12">
+                  <PaymentMethodCheckboxField
+                    v-model="atendimento.formasPagamentoAtendimentos"
+                    :default-checked="atendimento.formasPagamentoAtendimentos"
+                    required-list
+                    with-field-label
+                  />
+                </b-col>
+              </b-row>
+            </b-col>
+
+            <b-col cols="12" xs="12" md="6">
+              <ImageRender image-loader-computed-prop="doctor2" />
+              <!-- <ImageLoader file-name-with-extension="desktop-pagina-2.png"/> -->
             </b-col>
           </b-row>
         </b-form>
@@ -88,6 +81,7 @@ import SpecialtyDropdownField from "@/components/fields/SpecialtyDropdownField.v
 import MoneyField from "@/components/fields/MoneyField.vue";
 import PaymentMethodCheckboxField from "@/components/fields/PaymentMethodCheckboxField.vue";
 import Atendimentos from "@/domain/models/atendimentos";
+import ImageRender from "@/components/images/ImageRender.vue";
 
 export default {
   components: {
@@ -97,6 +91,7 @@ export default {
     SpecialtyDropdownField,
     MoneyField,
     PaymentMethodCheckboxField,
+    ImageRender,
   },
   props: {
     atendimento: {
@@ -115,3 +110,18 @@ export default {
 
 <style>
 </style>
+
+                  <!-- <CheckboxListField
+                v-model="atendimento.teste"
+                :options="atendimento.formasPagamento"
+                :bind-value="atendimento.teste"
+                label="Informe o preço da consulta"
+                rules="required"
+                bind-value-prop="formaPagamentoId"
+                checked-value-prop="id"
+                checked-label-prop="nome"
+                unchecked-value-prop=""
+                unchecked-label-prop="nome"
+                required-label
+                with-label
+              /> -->

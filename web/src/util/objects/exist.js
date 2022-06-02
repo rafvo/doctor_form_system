@@ -4,19 +4,21 @@ export default class Exist {
   }
 
   exist() {
+    if (this.isUndefined()) return false;
+    if (this.isNaNValue()) return false;
     if (this.isArray()) return this.existArray();
     if (this.isObject()) return this.existObject();
     if (this.isString()) return this.existString();
     if (this.isNumber()) return this.existNumber();
 
-    return this.isUndefined() || this.isNaN();
+    return false;
   }
 
   isUndefined() {
     return Boolean(this.value == undefined);
   }
 
-  isNaN() {
+  isNaNValue() {
     return Boolean(this.value == "NaN");
   }
 
@@ -42,35 +44,20 @@ export default class Exist {
   }
 
   existArray() {
-    return (
-      this.value &&
-      !this.isUndefined() &&
-      this.isArray() &&
-      this.value.length > 0
-    );
+    return this.value && this.isArray() && this.value.length > 0;
   }
 
   existObject() {
-    return this.value && !this.isUndefined() && this.isObject();
+    return this.value && this.isObject();
   }
 
   existString() {
     return (
-      this.value &&
-      !this.isUndefined() &&
-      this.isString() &&
-      this.value != "" &&
-      this.value != null
+      this.value && this.isString() && this.value != "" && this.value != null
     );
   }
 
   existNumber() {
-    return (
-      !this.isUndefined() &&
-      this.isNumber() &&
-      !this.isNaN() &&
-      this.value != "" &&
-      this.value != null
-    );
+    return this.isNumber() && this.value != "" && this.value != null;
   }
 }

@@ -63,6 +63,9 @@
 </template>
 
 <script>
+import _cloneDeep from "lodash/cloneDeep";
+import { exist } from "@/util/exist";
+
 export default {
   props: {
     /*required*/
@@ -109,7 +112,7 @@ export default {
     },
     searchPlaceholder: {
       type: String,
-      default: "Digite aqui para realizar a busca",
+      default: "Buscar",
       required: false,
     },
     uniqueOptionKey: {
@@ -123,7 +126,6 @@ export default {
       uniqueKey: null,
       keyword: "",
       selected: {},
-
       focus: false,
       mouseIn: false,
     };
@@ -176,14 +178,27 @@ export default {
       return `${this.uniqueKeyUid}_ref`;
     },
     existOptions() {
-      return Boolean(this.options);
+      return exist(this.options);
     },
     existSelected() {
-      return Boolean(this.selected);
+      return exist(this.selected);
+    },
+    existSelectedObject() {
+      return exist(this.selectedObject);
+    },
+    existSelectedLabel(){
+      if(!this.existSelectedObject) return false;
+      return exist(this.selectedObject[this.labelOptionKey])
+    },
+    selectedObject() {
+      const list = this.options
+        .filter((f) => f[this.uniqueOptionKey] == this.uniqueKey);
+
+      return list[0];  
     },
     selectedLabel() {
-      if (!this.existSelected) return "";
-      return this.selected[this.labelOptionKey];
+      if (!this.existSelectedLabel) return "";
+      return this.selectedObject[this.labelOptionKey];
     },
     searchList() {
       if (!this.keyword) return this.options;
@@ -203,16 +218,12 @@ export default {
     rollback(payload) {
       if (!payload) return;
 
-      this.uniqueKey = this.bindValue;
-      this.selected = this.seletedObject();
-    },
-    bindValue() {
-      this.uniqueKey = this.bindValue;
-      this.selected = this.seletedObject();
+      this.uniqueKey = _cloneDeep(this.bindValue);
+      this.selected = _cloneDeep(this.seletedObject);
     },
   },
   methods: {
-    reset(){
+    reset() {
       this.Selected = {};
     },
     onSelect(opt) {
@@ -235,32 +246,30 @@ export default {
     inputEsc() {
       this.focus = false;
     },
-    seletedObject() {
-      return this.options
-        .filter((f) => f[this.uniqueOptionKey] == this.uniqueKey)
-        .shift();
-    },
+    // seletedObject() {
+    //   return this.options
+    //     .filter((f) => f[this.uniqueOptionKey] == this.bindValue)
+    //     .shift();
+    // },
     escKey($event) {
       if ($event.keyCode === 27) {
         this.focus = false;
       }
     },
-    /*emissões*/
     emitSelected() {
-      this.$emit("selected", this.selected);
+      this.$emit("selected", this.Selected);
     },
     emitInput() {
       this.$emit("input", this.uniqueKey);
     },
   },
   mounted() {
-    this.uniqueKey = this.bindValue;
-    this.Selected = this.seletedObject();
+    this.uniqueKey = _cloneDeep(this.bindValue);
 
     document.addEventListener("keyup", this.escKey);
   },
   destroyed() {
-    window.removeEventListener("keyup", this.escKey);
+    document.removeEventListener("keyup", this.escKey);
   },
 };
 </script>

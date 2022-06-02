@@ -22,8 +22,8 @@
         :rules="requiredRule"
       >
         <SelectSearchField
-          :ref="uniqueSelectKey"
           v-model="Field"
+          :ref="uniqueSelectKey"
           :bind-value="bindValue"
           :id="uniqueKey"
           :name="uniqueNameKey"
@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import _cloneDeep from "lodash/cloneDeep";
 import InlineRow from "@/components/rows/InlineRow.vue";
 import SpinnerLoader from "@/components/loaders/SpinnerLoader.vue";
 import VeeValidateErrorMessage from "@/components/veeValidate/VeeValidateErrorMessage";
@@ -117,7 +118,7 @@ export default {
     },
     searchPlaceholder: {
       type: String,
-      default: "Digite aqui para realizar a busca",
+      default: "Buscar",
       required: false,
     },
     withLabel: {
@@ -137,11 +138,9 @@ export default {
       get() {
         return this.field;
       },
-      set(v) {
-        this.field = v;
-
+      set(payload) {
+        this.field = payload;
         this.emitInput();
-        this.emitSelected();
       },
     },
     uniqueKey() {
@@ -171,18 +170,8 @@ export default {
     reset() {
       this.$refs[this.uniqueSelectKey].reset();
     },
-    setDefaultValue() {
-      this.field = this.defaultValue;
-      this.selected = this.selectedOption();
-    },
-    selectedOption() {
-      return this.options
-        .filter((f) => f[this.uniqueOptionKey] == this.field)
-        .shift();
-    },
     setSelected(payload) {
       this.selected = payload;
-
       this.emitSelected();
     },
     emitInput() {
@@ -192,9 +181,9 @@ export default {
       this.$emit("object", this.selected);
     },
   },
-  created() {
-    this.setDefaultValue();
-  },
+  mounted(){
+    this.field = _cloneDeep(this.bindValue)
+  }
 };
 </script>
 

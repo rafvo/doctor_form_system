@@ -1,23 +1,30 @@
 <template>
   <div>
+    <InlineRow v-if="withFieldLabel">
+      <label
+        class="white-space-nowrap cursor-pointer mr-7"
+        :class="{ required: requiredLabel }"
+        >{{ fieldLabel }}</label
+      >
+    </InlineRow>
+
     <b-row v-for="(item, key) in list" :key="key">
       <b-col cols="12">
-        <Card>
-          <CheckboxField
-            :bindValue="bindValue(item)"
-            :checkedValue="checkedValue(item)"
-            :uncheckedValue="uncheckedValue(item)"
-            :checkedLabel="checkedLabel(item)"
-            :uncheckedLabel="uncheckedLabel(item)"
-            :rules="rules"
-            with-true-false-label
-            @checked="add($event, key)"
-            @unchecked="remove($event, key)"
-          />
-          <slot name="extra" :item="item" :index="key"></slot>
-        </Card>
+        <CheckboxField
+          :bindValue="bindValue(item)"
+          :checkedValue="checkedValue(item)"
+          :uncheckedValue="uncheckedValue(item)"
+          :checkedLabel="checkedLabel(item)"
+          :uncheckedLabel="uncheckedLabel(item)"
+          :rules="rules"
+          with-true-false-label
+          @checked="add($event, key)"
+          @unchecked="remove($event, key)"
+        />
+        <slot name="extra" :item="item" :index="key"></slot>
       </b-col>
     </b-row>
+
     <!-- <pre
       >{{ list }}
     </pre> -->
@@ -29,12 +36,14 @@ import Vue from "vue";
 import { exist } from "@/util/exist";
 import _cloneDeep from "lodash/cloneDeep";
 import CheckboxField from "./CheckboxField.vue";
-import Card from "@/components/cards/Card.vue";
+// import Card from "@/components/cards/Card.vue";
+import InlineRow from "@/components/rows/InlineRow.vue";
 
 export default {
   components: {
     CheckboxField,
-    Card,
+    //Card,
+    InlineRow,
   },
   props: {
     bindValueProp: {
@@ -67,6 +76,11 @@ export default {
       required: false,
     },
     inlineFieldLabel: {
+      type: Boolean,
+      default: false,
+      required: false,
+    },
+    loading: {
       type: Boolean,
       default: false,
       required: false,
@@ -177,19 +191,12 @@ export default {
         this.emitOldChecked();
       },
     },
+    existList() {
+      return exist(this.list);
+    },
     uncheckedValuePropSplit() {
       return this.uncheckedValueProp.split(".");
     },
-    // obj() {
-    //   return this.list[0];
-    // },
-    // teste() {
-    //   let value = this.uncheckedLabelProp.split(".").reduce(function (p, prop) {
-    //     return p[prop];
-    //   }, this.obj);
-
-    //   return value;
-    // },
   },
   methods: {
     bindValue(obj) {
@@ -216,11 +223,11 @@ export default {
 
       return value;
     },
-    exist(key) {
+    existItem(key) {
       return Boolean(this.checked && this.checked[key]);
     },
     add(value, key) {
-      if (this.exist(key)) return;
+      if (this.existItem(key)) return;
 
       this.list[key][this.bindValueProp] = value;
       const item = _cloneDeep(this.list[key]);
@@ -268,7 +275,28 @@ export default {
 </style>
 
 <!--
+withDefaultChecked() {
+      let list = _cloneDeep(this.options);
 
+      for (const keyA in list) {
+        for (const keyB in this.defaultChecked) {
+          const listCheckedValue = this.checkedValue(this.list[keyA]);
+          const defaultCheckedValue = this.checkedValue(
+            this.defaultChecked[keyB]
+          );
+
+          if (listCheckedValue == defaultCheckedValue) {
+            const defaultCheckedBindValue = this.bindValue(this.defaultChecked[keyB]);
+            list[keyA][this.bindValueProp] = defaultCheckedBindValue;
+            break;
+          }
+        }
+      }
+
+      console.log(list);
+
+      return list;
+    },
     // rowsKeys() {
     //   return Object.keys(this.options);
     // },

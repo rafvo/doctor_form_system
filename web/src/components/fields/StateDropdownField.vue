@@ -1,8 +1,9 @@
 <template>
   <div>
     <DropdownField
+      v-model="Id"
       :class="{ 'inline-block': inline }"
-      :bind-value="stateId"
+      :bind-value="stateIdByCity"
       :options="Options"
       :unique-option-key="uniqueOptionKey"
       :label-option-key="labelOptionKey"
@@ -13,16 +14,13 @@
       :required="required"
       :loading="loading"
       :with-label="withLabel"
-      @input="setId"
       @object="setState"
     />
-
     <template v-if="withCityField">
       <slot name="cityField" :city="city">
         <CityDropdownField
           :class="{ 'inline-block': inline }"
           v-model="city.id"
-          :state-id="city.id_state"
           :with-label="withLabel"
           :required="required"
         />
@@ -32,7 +30,8 @@
 </template>
 
 <script>
-import { exist } from "@/util/exist"
+import _cloneDeep from "lodash/cloneDeep";
+import { exist } from "@/util/exist";
 import Estados from "@/domain/models/estados";
 import Cidades from "@/domain/models/cidades";
 import DropdownField from "./DropdownField.vue";
@@ -69,6 +68,11 @@ export default {
       default: "nome",
       required: false,
     },
+    stateIdInCityKey: {
+      type: String,
+      default: "estadoId",
+      required: false,
+    },
     name: {
       type: [String, Number],
       default: null,
@@ -96,7 +100,7 @@ export default {
     },
     searchPlaceholder: {
       type: String,
-      default: "Digite aqui para realizar a busca",
+      default: "Buscar",
       required: false,
     },
     withLabel: {
@@ -113,25 +117,22 @@ export default {
   data() {
     return {
       loading: false,
+      oldId: null,
       id: null,
       state: new Estados(),
       city: new Cidades(),
     };
   },
   computed: {
-    /*city id*/
     Id: {
       get() {
         return this.id;
       },
       set(payload) {
-        if (!payload) payload = null;
         this.id = payload;
-
         this.emitInput();
       },
     },
-    /*state model*/
     State: {
       get() {
         return this.state;
@@ -153,7 +154,12 @@ export default {
       return Object.values(this.$store.state.estados.all);
     },
     cityById() {
-      return this.existCityId ? this.$store.state.cidades.all[this.cityId] : null;
+      return this.existCityId
+        ? this.$store.state.cidades.all[this.cityId]
+        : null;
+    },
+    stateIdByCity() {
+      return this.cityById ? this.cityById[this.stateIdInCityKey] : null;
     },
     Options() {
       return this.existStates
@@ -161,19 +167,9 @@ export default {
         : this.options;
     },
   },
-  watch: {
-    stateId(payload) {
-      if (!payload) {
-        this.Id = null;
-        this.State = null;
-      }
-    },
-    cityById(payload) {
-      if (payload) this.Id = payload.id_state;
-    },
-  },
   methods: {
     getAll() {
+      console.log("load states");
       this.loading = true;
       setTimeout(() => {
         this.$store.dispatch("estados/all", Estados.getAll());
@@ -191,9 +187,6 @@ export default {
       //     this.loading = false;
       //   });
     },
-    setId(payload) {
-      this.Id = payload;
-    },
     setState(payload) {
       this.State = payload;
     },
@@ -206,6 +199,7 @@ export default {
   },
   mounted() {
     if (!this.existStates) this.getAll();
+    this.oldId = _cloneDeep(this.stateId);
   },
 };
 </script>

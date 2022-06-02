@@ -34,11 +34,6 @@ export default {
       default: null,
       required: false,
     },
-    stateId: {
-      type: [String, Number],
-      default: null,
-      required: false,
-    },
     options: {
       type: Array,
       default: () => [{ id: null, nome: "Selecione" }],
@@ -81,7 +76,7 @@ export default {
     },
     searchPlaceholder: {
       type: String,
-      default: "Digite aqui para realizar a busca",
+      default: "Buscar",
       required: false,
     },
     withLabel: {

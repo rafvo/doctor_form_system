@@ -1,28 +1,40 @@
 <template>
   <div>
-    <Stepper v-model="currentStep" show-only-one>
-      <StepperContent step="1">
-        <Card centered>
-          <AboutProfessionalForm
-            @valid="currentStep = 2"
-            :profissional="atendimento.profissional"
-            :loading="loading"
-          >
-          </AboutProfessionalForm>
-        </Card>
+    <Card>
+      <AboutProfessionalForm
+        :profissional="atendimento.profissional"
+        :loading="loading"
+      >
+      </AboutProfessionalForm>
+    </Card>
+    <Card>
+      <AboutServiceForm :atendimento="atendimento" :loading="loading" />
+    </Card>
+    <Card>
+      <DoctorFormReview :atendimento="atendimento" />
+    </Card>
 
-        <Card>
-          <!-- </AboutProfessionalForm> -->
-          <AboutServiceForm :atendimento="atendimento" :loading="loading" />
-        </Card>
-      </StepperContent>
+    <!-- <Card>
+      <Stepper>
+        <template v-slot="{ currentStep }">
+          <StepperContent step="1" :current-step="currentStep">
+            <AboutProfessionalForm
+              :profissional="atendimento.profissional"
+              :loading="loading"
+            >
+            </AboutProfessionalForm>
+          </StepperContent>
 
-      <StepperContent step="2">
-        <AboutServiceForm :atendimento="atendimento" :loading="loading" />
-      </StepperContent>
+          <StepperContent step="2" :current-step="currentStep">
+            <AboutServiceForm :atendimento="atendimento" :loading="loading" />
+          </StepperContent>
+        </template>
+      </Stepper>
+    </Card> -->
 
-      <!-- <StepperItems></StepperItems> -->
-    </Stepper>
+    <!-- <pre>
+      {{ atendimento }}
+    </pre> -->
 
     <!-- <CardStepper v-model="currentStep" :steps="2" :current-step="currentStep">
       <template #step:1>
@@ -40,23 +52,25 @@
 <script>
 import Card from "@/components/cards/Card.vue";
 
-import Stepper from "@/components/steppers/Stepper.vue";
+// import Stepper from "@/components/steppers/Stepper.vue";
 // import StepperItems from "@/components/steppers/StepperItems.vue";
 // import CardStepper from "@/components/steppers/CardStepper.vue";
-import StepperContent from "@/components/steppers/StepperContent.vue";
+// import StepperContent from "@/components/steppers/StepperContent.vue";
 import AboutProfessionalForm from "./AboutProfessionalForm.vue";
 import AboutServiceForm from "./AboutServiceForm.vue";
+import DoctorFormReview from "./DoctorFormReview.vue";
 import Atendimentos from "@/domain/models/atendimentos";
 
 export default {
   components: {
     Card,
-    Stepper,
+    // Stepper,
     // StepperItems,
-    StepperContent,
+    // StepperContent,
     // CardStepper,
     AboutProfessionalForm,
     AboutServiceForm,
+    DoctorFormReview,
   },
   props: {
     atendimento: {
@@ -68,7 +82,6 @@ export default {
   data() {
     return {
       loading: false,
-      currentStep: 1,
     };
   },
   methods: {

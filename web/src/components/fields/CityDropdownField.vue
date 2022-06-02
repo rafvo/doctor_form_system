@@ -1,26 +1,25 @@
 <template>
   <div>
     <b-row>
-      <b-col md="4">
+      <b-col md="6">
         <template v-if="withStateField">
           <slot name="stateField" :state="state">
             <StateDropdownField
               :ref="uniqueStateKey"
               v-model="state.id"
-              :state-id="state.id"
               :city-id="cityId"
               :live-search="liveSearch"
               :search-placeholder="searchPlaceholder"
               :required="required"
               :with-label="withLabel"
-              @input="resetCity"
-              @state="getByStateId"
+              @state="onStateChange"
             />
           </slot>
         </template>
       </b-col>
-      <b-col md="8">
+      <b-col md="6">
         <DropdownField
+          v-model="Id"
           :ref="uniqueCityKey"
           :bind-value="cityId"
           :options="Options"
@@ -33,7 +32,6 @@
           :required="required"
           :loading="loading"
           :with-label="withLabel"
-          @input="setCityId"
           @object="setCity"
         />
       </b-col>
@@ -112,7 +110,7 @@ export default {
     },
     searchPlaceholder: {
       type: String,
-      default: "Digite aqui para realizar a busca",
+      default: "Buscar",
       required: false,
     },
     inline: {
@@ -179,14 +177,17 @@ export default {
     existCityId() {
       return Boolean(this.cityId);
     },
+    uniqueKey() {
+      return `${this._uid}`;
+    },
     uniqueCityKey() {
-      return this.id ? `${this.id}` : `${this._uid}_city`;
+      return this.id ? `${this.id}` : `${this.uniqueKey}_city`;
     },
     uniqueCityNameKey() {
-      return this.name ? `${this.name}` : `${this._uid}_city`;
+      return this.name ? `${this.name}` : `${this.uniqueKey}_city`;
     },
     uniqueStateKey() {
-      return `${this._uid}_state`;
+      return `${this.uniqueKey}_state`;
     },
     uniqueRef() {
       return this.uniqueKey.concat("_ref");
@@ -204,52 +205,46 @@ export default {
       return [...this.options, ...this.cities];
     },
     cityFilter() {
-      return new CidadesFiltros({ estadoId: this.state.id });
+      return new CidadesFiltros({ estadoId: this.stateIdByCity });
     },
-  },
-  watch: {
-    fieldReadonly() {
-      if (!this.oldCityId && this.fieldReadonly) {
-        this.city = new Cidades();
-        this.state = new Estados();
-      }
+    cityById() {
+      return this.existCityId
+        ? this.$store.state.cidades.all[this.cityId]
+        : null;
     },
-    textReadonly() {
-      if (!this.oldCityId && this.textReadonly) {
-        this.city = new Cidades();
-        this.state = new Estados();
-      }
-    },
-    cityId() {
-      const model = this.$store.state.cidades.all[this.cityId];
-      if (!model) this.getByCityState();
+    stateIdByCity() {
+      return this.cityById ? this.cityById.estadoId : null;
     },
   },
   methods: {
+    onStateChange(state) {
+      if (!state || !state.id) return;
+      if (this.isLoadedCities(state.id)) return;
+
+      //this.resetCity();
+      this.getByStateId(state.id);
+    },
     resetCity() {
+      console.log("reset city");
       this.$refs[this.uniqueCityKey].reset();
     },
-    isLoadedCities() {
-      let isLoaded = false;
+    isLoadedCities(stateId) {
+      if (!stateId) return false;
 
+      let isLoaded = false;
       for (const model of Object.values(this.$store.state.cidades.all)) {
-        if (model.estadoId == this.state.id) {
+        if (model.estadoId == stateId) {
           isLoaded = true;
           break;
         }
       }
-
       return isLoaded;
     },
-    getByStateId() {
-      if (this.isLoadedCities()) return;
-
+    getByStateId(stateId) {
+      console.log("load cities");
       this.loading = true;
       setTimeout(() => {
-        this.$store.dispatch(
-          "cidades/all",
-          Cidades.getByStateId(this.state.id)
-        );
+        this.$store.dispatch("cidades/all", Cidades.getByStateId(stateId));
         this.loading = false;
       }, 2000);
 
@@ -264,9 +259,6 @@ export default {
       //     this.loading = false;
       //   });
     },
-    setCityId(payload) {
-      this.Id = payload;
-    },
     setCity(payload) {
       this.City = payload;
     },
@@ -279,9 +271,32 @@ export default {
   },
   mounted() {
     this.oldCityId = _cloneDeep(this.cityId);
+    this.state.id = _cloneDeep(this.stateIdByCity);
   },
 };
 </script>
 
 <style>
 </style>
+
+<!--
+  watch: {
+    // fieldReadonly() {
+    //   if (!this.oldCityId && this.fieldReadonly) {
+    //     this.city = new Cidades();
+    //     this.state = new Estados();
+    //   }
+    // },
+    // textReadonly() {
+    //   if (!this.oldCityId && this.textReadonly) {
+    //     this.city = new Cidades();
+    //     this.state = new Estados();
+    //   }
+    // },
+    // cityId() {
+    //   const model = this.$store.state.cidades.all[this.cityId];
+    //   if (!model) this.getByCityState();
+    // },
+  },
+
+  -->
