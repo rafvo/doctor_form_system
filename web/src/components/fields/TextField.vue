@@ -11,7 +11,7 @@
             :vid="providerVid"
             :name="label"
             :rules="allRules"
-            v-slot="{ errors }"
+            v-slot="{ errors, valid }"
           >
             <b-form-input
               v-model="Field"
@@ -20,6 +20,7 @@
               :ref="fieldRef"
               :id="uniqueKey"
               :name="uniqueNameKey"
+              :state="isValid({isValid: valid, errors: errors })"
               :type="type"
               :placeholder="placeholder"
             ></b-form-input>
@@ -33,6 +34,7 @@
 
 <script>
 import _cloneDeep from "lodash/cloneDeep";
+import { exist } from '@/util/exist'
 import VeeValidateErrorMessage from "@/components/veeValidate/VeeValidateErrorMessage";
 
 export default {
@@ -165,6 +167,11 @@ export default {
     },
   },
   methods: {
+    isValid({isValid = false, errors = []} = {}){
+      if(!exist(errors)) return true;
+
+      return isValid;
+    },
     emitBlur() {
       this.$emit("blur", true);
     },

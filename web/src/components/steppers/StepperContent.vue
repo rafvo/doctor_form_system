@@ -5,23 +5,30 @@
 </template>
 
 <script>
+import Stepper from "@/domain/objects/stepper";
+
 export default {
   props: {
-    currentStep: {
-      type: [String, Number],
-      default: 1,
-      required: false,
-    },
     step: {
       type: [String, Number],
       default: 1,
       required: false,
     },
   },
+  data() {
+    return {
+      stepper: new Stepper(),
+    };
+  },
   computed: {
     stepEnable() {
-      return this.currentStep == this.step;
+      return this.stepper.currentStep == this.step;
     },
+  },
+  mounted() {
+    this.$root.$on("stepper", (stepper) => {
+      this.stepper = Stepper.fromJson(stepper);
+    });
   },
 };
 </script>

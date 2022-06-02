@@ -4,7 +4,8 @@
       :title="title"
       class="mb-2"
       :style="{
-        width: width,
+        'width': width,
+        'border-radius': borderRadius
       }"
     >
       <template v-if="hasHeaderSlot" #header>
@@ -49,6 +50,11 @@ export default {
       default: "100%",
       required: false,
     },
+    borderRadius: {
+      type: String,
+      default: "25px",
+      required: false,
+    }
   },
   computed: {
     hasHeaderSlot() {
@@ -100,4 +106,8 @@ export default {
   top: var(--card-component-top) !important;
   height: var(--card-component-height) !important;
 }
+
+// .card-body {
+//   overflow: auto;
+// }
 </style>

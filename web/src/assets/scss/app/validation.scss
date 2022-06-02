@@ -1,0 +1,8 @@
+.form-control:invalid, .form-control.is-invalid{
+    border-color: #dc3545!important;
+    background-image: unset!important;
+}
+
+.form-control:valid, .form-control.is-valid {
+    background-image: unset!important;
+}

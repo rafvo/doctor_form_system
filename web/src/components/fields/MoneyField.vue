@@ -6,12 +6,17 @@
       :for="uniqueRef"
       >{{ label }}</label
     >
-    <ValidationProvider v-slot="{ errors }" :name="label" :rules="allRules">
+    <ValidationProvider
+      v-slot="{ errors, valid }"
+      :name="label"
+      :rules="allRules"
+    >
       <b-button-toolbar v-if="prefixInToolbar">
         <b-button-group class="mr-1"></b-button-group>
         <b-input-group :prepend="prefix">
           <money
             class="form-control"
+            :class="{ 'is-invalid': !isValid({ isValid: valid, errors: errors }) }"
             v-model="Field"
             v-bind="money"
             :ref="uniqueRef"
@@ -25,6 +30,7 @@
       <money
         v-else
         class="form-control"
+        :class="{ 'is-invalid': !isValid({ isValid: valid, errors: errors }) }"
         v-model="Field"
         v-bind="money"
         :ref="uniqueRef"
@@ -39,6 +45,7 @@
 </template>
 
 <script>
+import { exist } from '@/util/exist'
 import VeeValidateErrorMessage from "@/components/veeValidate/VeeValidateErrorMessage";
 
 export default {
@@ -225,6 +232,11 @@ export default {
     },
   },
   methods: {
+    isValid({ isValid = false, errors = [] } = {}) {
+      if (!exist(errors)) return true;
+
+      return isValid;
+    },
     emitBlur() {
       this.$emit("blur", true);
     },
@@ -239,8 +251,7 @@ export default {
 </script>
 
 <style scoped>
-
 .btn-toolbar {
-  display: inherit!important;
+  display: inherit !important;
 }
 </style>

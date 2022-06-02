@@ -7,6 +7,7 @@
     <div class="input-dropdown-area position-relative">
       <b-form-input
         :ref="inputDropdownRef"
+        :state="validField"
         class="cursor-pointer input-dropdown"
         type="text"
         :placeholder="placeholder"
@@ -73,6 +74,11 @@ export default {
       type: Array,
       default: () => [{ id: null, label: "Selecione" }],
       required: true,
+    },
+    validField: {
+      type: Boolean,
+      default: true,
+      required: false,
     },
     /*not required*/
     bindValue: {

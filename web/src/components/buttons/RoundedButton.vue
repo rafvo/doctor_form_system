@@ -2,7 +2,6 @@
   <b-button
     :class="[buttonClasses, { block: block }]"
     :style="buttonVars"
-    variant="primary"
     @click="(event) => $emit('click', event)"
     @click.prevent="(event) => $emit('click:prevent', event)"
   >

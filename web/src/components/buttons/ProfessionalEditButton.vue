@@ -1,9 +1,8 @@
 <template>
   <div>
     <RoundedButton
-      button-classes="btn-primary-0"
+      button-classes="btn-white"
       block
-      uppercase-title
       @click="(event) => $emit('click', event)"
       @click:prevent="(event) => $emit('click:prevent', event)"
     >
@@ -22,7 +21,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: "Próximo",
+      default: "Editar Cadastro",
       required: false,
     },
   },

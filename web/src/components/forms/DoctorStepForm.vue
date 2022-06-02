@@ -1,76 +1,79 @@
 <template>
   <div>
-    <Card>
-      <AboutProfessionalForm
-        :profissional="atendimento.profissional"
-        :loading="loading"
-      >
-      </AboutProfessionalForm>
-    </Card>
-    <Card>
-      <AboutServiceForm :atendimento="atendimento" :loading="loading" />
-    </Card>
-    <Card>
-      <DoctorFormReview :atendimento="atendimento" />
-    </Card>
+    <Stepper :steps="3">
+      <Card centered>
+        <StepperContent step="1">
+          <b-row>
+            <b-col cols="12" xs="12" md="6">
+              <DoctorAboutProfessionalForm
+                :profissional="atendimento.profissional"
+                :loading="loading"
+              >
+                <template #submitButton>
+                  <StepperNextButton class="mt-5" />
+                </template>
+              </DoctorAboutProfessionalForm>
+            </b-col>
+            <b-col cols="12" xs="12" md="6">
+              <ImageRender image-loader-computed-prop="doctor1" />
+            </b-col>
+          </b-row>
+        </StepperContent>
 
-    <!-- <Card>
-      <Stepper>
-        <template v-slot="{ currentStep }">
-          <StepperContent step="1" :current-step="currentStep">
-            <AboutProfessionalForm
-              :profissional="atendimento.profissional"
-              :loading="loading"
-            >
-            </AboutProfessionalForm>
-          </StepperContent>
+        <StepperContent step="2">
+          <b-row>
+            <b-col cols="12" xs="12" md="6">
+              <DoctorAboutServiceForm
+                :atendimento="atendimento"
+                :loading="loading"
+              >
+                <template #submitButton>
+                  <StepperNextButton class="mt-5" />
+                </template>
+              </DoctorAboutServiceForm>
+            </b-col>
+            <b-col cols="12" xs="12" md="6">
+              <ImageRender image-loader-computed-prop="doctor2" />
+            </b-col>
+          </b-row>
+        </StepperContent>
 
-          <StepperContent step="2" :current-step="currentStep">
-            <AboutServiceForm :atendimento="atendimento" :loading="loading" />
-          </StepperContent>
-        </template>
-      </Stepper>
-    </Card> -->
-
-    <!-- <pre>
-      {{ atendimento }}
-    </pre> -->
-
-    <!-- <CardStepper v-model="currentStep" :steps="2" :current-step="currentStep">
-      <template #step:1>
-        <h3>{{ currentStep }}</h3>
-        <AboutProfessionalForm @valid="currentStep = 2" />
-      </template>
-      <template #step:2 @valid="currentStep = 3">
-        <h3>{{ currentStep }}</h3>
-        <AboutServiceForm />
-      </template>
-    </CardStepper> -->
+        <StepperContent step="3">
+          <b-row>
+            <b-col cols="12" xs="12" md="6">
+              <DoctorFormReview :atendimento="atendimento" />
+            </b-col>
+            <b-col cols="12" xs="12" md="6">
+              <ImageRender image-loader-computed-prop="doctor3" />
+            </b-col>
+          </b-row>
+        </StepperContent>
+      </Card>
+    </Stepper>
   </div>
 </template>
 
 <script>
+import ImageRender from "@/components/images/ImageRender.vue";
 import Card from "@/components/cards/Card.vue";
-
-// import Stepper from "@/components/steppers/Stepper.vue";
-// import StepperItems from "@/components/steppers/StepperItems.vue";
-// import CardStepper from "@/components/steppers/CardStepper.vue";
-// import StepperContent from "@/components/steppers/StepperContent.vue";
-import AboutProfessionalForm from "./AboutProfessionalForm.vue";
-import AboutServiceForm from "./AboutServiceForm.vue";
+import Stepper from "@/components/steppers/Stepper.vue";
+import StepperContent from "@/components/steppers/StepperContent.vue";
+import DoctorAboutProfessionalForm from "./DoctorAboutProfessionalForm.vue";
+import DoctorAboutServiceForm from "./DoctorAboutServiceForm.vue";
 import DoctorFormReview from "./DoctorFormReview.vue";
 import Atendimentos from "@/domain/models/atendimentos";
+import StepperNextButton from "@/components/steppers/StepperNextButton.vue";
 
 export default {
   components: {
     Card,
-    // Stepper,
-    // StepperItems,
-    // StepperContent,
-    // CardStepper,
-    AboutProfessionalForm,
-    AboutServiceForm,
+    ImageRender,
+    Stepper,
+    StepperContent,
+    DoctorAboutProfessionalForm,
+    DoctorAboutServiceForm,
     DoctorFormReview,
+    StepperNextButton,
   },
   props: {
     atendimento: {
@@ -84,16 +87,23 @@ export default {
       loading: false,
     };
   },
-  methods: {
-    // initialState() {
-    //   this.loading = true;
-    //   setTimeout(() => {
-    //     this.loading = false;
-    //   }, 1000);
-    // },
-  },
+  methods: {},
 };
 </script>
 
 <style>
 </style>
+
+    <!-- <Card>
+      <DoctorAboutProfessionalForm
+        :profissional="atendimento.profissional"
+        :loading="loading"
+      >
+      </DoctorAboutProfessionalForm>
+    </Card>
+    <Card>
+      <DoctorAboutServiceForm :atendimento="atendimento" :loading="loading" />
+    </Card>
+    <Card>
+      <DoctorFormReview :atendimento="atendimento" />
+    </Card> -->

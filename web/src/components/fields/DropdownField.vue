@@ -17,7 +17,7 @@
     />
     <template v-else>
       <ValidationProvider
-        v-slot="{ errors }"
+        v-slot="{ errors, valid }"
         :name="label"
         :rules="requiredRule"
       >
@@ -25,6 +25,7 @@
           v-model="Field"
           :ref="uniqueSelectKey"
           :bind-value="bindValue"
+          :valid-field="isValid({ isValid: valid, errors: errors })"
           :id="uniqueKey"
           :name="uniqueNameKey"
           :options="options"
@@ -43,6 +44,7 @@
 
 <script>
 import _cloneDeep from "lodash/cloneDeep";
+import { exist } from '@/util/exist'
 import InlineRow from "@/components/rows/InlineRow.vue";
 import SpinnerLoader from "@/components/loaders/SpinnerLoader.vue";
 import VeeValidateErrorMessage from "@/components/veeValidate/VeeValidateErrorMessage";
@@ -167,6 +169,11 @@ export default {
     },
   },
   methods: {
+      isValid({ isValid = false, errors = [] } = {}) {
+      if (!exist(errors)) return true;
+
+      return isValid;
+    },
     reset() {
       this.$refs[this.uniqueSelectKey].reset();
     },
