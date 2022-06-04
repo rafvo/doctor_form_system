@@ -1,6 +1,7 @@
 <template>
   <div>
     <RadioField
+      v-model="Field"
       :bindValue="bindValue"
       :options="installments"
       uniqueOptionKey="id"
@@ -13,13 +14,13 @@
       :inlineLabel="inlineLabel"
       :inlineOptions="inlineOptions"
       :withFieldLabel="withFieldLabel"
-      @input="emitInput"
       @object="emitObject"
     />
   </div>
 </template>
 
 <script>
+
 import RadioField from "./RadioField.vue";
 
 export default {
@@ -94,7 +95,21 @@ export default {
       required: false,
     },
   },
+  data(){
+    return {
+      field: null
+    }
+  },
   computed: {
+    Field: {
+      get(){
+        return this.field
+      },
+      set(value){
+        this.field = value;
+        this.emitInput();
+      }
+    },
     installmentsList() {
       const list = [];
       for (let index = 1; index <= this.total; index++) {
@@ -122,8 +137,8 @@ export default {
     emitObject(payload) {
       this.$emit("object", payload);
     },
-    emitInput(payload) {
-      this.$emit("input", payload);
+    emitInput() {
+      this.$emit("input", this.field);
     },
   },
 };

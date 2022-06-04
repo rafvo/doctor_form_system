@@ -1,5 +1,6 @@
 export default class Stepper {
-  constructor({ currentStep = null, totalSteps = null } = {}) {
+  constructor({ key = null, currentStep = null, totalSteps = null } = {}) {
+    this.key = key;
     this.currentStep = currentStep;
     this.totalSteps = totalSteps;
   }
@@ -7,7 +8,10 @@ export default class Stepper {
   static fromJson(json = null) {
     var model = new Stepper(json);
 
-    model.currentStep = json["currentStep"] ? parseInt(json["currentStep"]) : null;
+    model.key = json["key"] ? json["key"] : null;
+    model.currentStep = json["currentStep"]
+      ? parseInt(json["currentStep"])
+      : null;
     model.totalSteps = json["totalSteps"] ? parseInt(json["totalSteps"]) : null;
 
     return model;

@@ -1,40 +1,52 @@
-import Stepper from "@/domain/objects/stepper";
+import Vue from "vue";
+import { uniqueId } from "@/util/uniqueId";
+import StepperEvent from "@/domain/objects/stepperEvent";
 
 export default {
   namespaced: true,
   state: {
-    model: new Stepper(),
-    previousClick: 0,
-    nextClick: 0,
+    previousClick: {},
+    nextClick: {},
   },
-  getters: {
-    previousClickEvent(state) {
-      return state.previousClick;
-    },
-    nextClickEvent(state ) {
-      return state.nextClick;
-    },
-  },
+  getters: {},
   mutations: {
-    setModel(state, payload) {
-      state.model = payload;
+    setPreviousClick(state, stepperKey) {
+      let obj = {};
+
+      Vue.set(
+        obj,
+        stepperKey,
+        new StepperEvent({
+          stepperKey: stepperKey,
+          value: uniqueId(),
+        })
+      );
+
+      state.previousClick = obj;
     },
-    setPreviousClick(state) {
-      state.previousClick+=1;
-    },
-    setNextClick(state) {
-      state.nextClick+=1;
+    setNextClick(state, stepperKey) {
+      let obj = {};
+
+      Vue.set(
+        obj,
+        stepperKey,
+        new StepperEvent({
+          stepperKey: stepperKey,
+          value: uniqueId(),
+        })
+      );
+
+      state.nextClick = obj;
     },
   },
   actions: {
-    emitModel({ commit }, payload) {
-      commit("setModel", payload);
+    emitPreviousButtonClick({ commit }, stepperKey) {
+      if (!stepperKey) return;
+      commit("setPreviousClick", stepperKey);
     },
-    emiPreviousButtonClick({ commit }) {
-      commit("setPreviousClick");
-    },
-    emitNextButtonClick({ commit }) {
-      commit("setNextClick");
+    emitNextButtonClick({ commit }, stepperKey) {
+      if (!stepperKey) return;
+      commit("setNextClick", stepperKey);
     },
   },
 };

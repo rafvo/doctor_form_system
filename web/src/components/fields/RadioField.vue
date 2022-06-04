@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import _cloneDeep from "lodash/cloneDeep";
 import VeeValidateErrorMessage from "@/components/veeValidate/VeeValidateErrorMessage";
 
 export default {
@@ -135,8 +136,8 @@ export default {
   },
   methods: {
     setBindValue() {
-      this.field = this.bindValue;
-      this.selected = this.selectedOption();
+      this.field = _cloneDeep(this.bindValue);
+      this.selected = _cloneDeep(this.selectedOption());
     },
     selectedOption() {
       return this.options

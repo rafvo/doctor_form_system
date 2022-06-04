@@ -106,8 +106,4 @@ export default {
   top: var(--card-component-top) !important;
   height: var(--card-component-height) !important;
 }
-
-// .card-body {
-//   overflow: auto;
-// }
 </style>

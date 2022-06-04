@@ -243,23 +243,23 @@ export default {
     getByStateId(stateId) {
       this.loading = true;
 
-      this.$store
-        .dispatch("cidades/getAll", {
-          cityFilter: new CidadesFiltros({ estadoId: stateId }),
-        })
-        .then((response) => {
-          console.log(response);
-          this.loading = false;
-        })
-        .catch((error) => {
-          console.log(error);
-          this.loading = false;
-        });
+      // this.$store
+      //   .dispatch("cidades/getAll", {
+      //     cityFilter: new CidadesFiltros({ estadoId: stateId }),
+      //   })
+      //   .then((response) => {
+      //     console.log(response);
+      //     this.loading = false;
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //     this.loading = false;
+      //   });
 
-      //    setTimeout(() => {
-      //   this.$store.dispatch("cidades/all", Cidades.getByStateId(stateId));
-      //   this.loading = false;
-      // }, 2000);
+      setTimeout(() => {
+        this.$store.dispatch("cidades/all", Cidades.getByStateId(stateId));
+        this.loading = false;
+      }, 100);
     },
     setCity(payload) {
       this.City = payload;

@@ -3,9 +3,11 @@
 </template>
 
 <script>
+import stepperBus from "@/events/stepper";
 import IconButton from "@/components/buttons/IconButton.vue";
 
 export default {
+  inject: ["stepperKey"],
   components: {
     IconButton,
   },
@@ -17,12 +19,12 @@ export default {
     },
   },
   methods: {
-     onClickPrevent(event) {
+    onClickPrevent(event) {
       this.$emit("click:prevent", event);
       if (this.emitRootEvent) this.rootEmit();
     },
     rootEmit() {
-      this.$store.dispatch("stepper/emiPreviousButtonClick");
+      stepperBus.emitPreviousClick(this.stepperKey());
     },
   },
 };

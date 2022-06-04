@@ -20,18 +20,17 @@
 </template>
  
 <script>
-// import Stepper from "@/domain/objects/stepper";
-
 export default {
+  inject: ["stepper"],
   computed: {
-    stepper() {
-      return this.$store.state.stepper.model;
+    injectedStepper() {
+      return this.stepper();
     },
     currentStep() {
-      return this.stepper.currentStep ? this.stepper.currentStep : 0;
+      return this.injectedStepper.currentStep ? this.injectedStepper.currentStep : 0;
     },
     totalSteps() {
-      return this.stepper.totalSteps ? this.stepper.totalSteps : 0;
+      return this.injectedStepper.totalSteps ? this.injectedStepper.totalSteps : 0;
     },
   },
 };
@@ -39,3 +38,7 @@ export default {
 
 <style>
 </style>
+
+<!--
+// import Stepper from "@/domain/objects/stepper";
+-->

@@ -16,7 +16,7 @@
         :rules="requiredListRule"
       >
         <CheckboxListField
-          v-model="checked"
+          v-model="Checked"
           :default-checked="defaultChecked"
           :options="listModel"
           :rules="requiredItemsRule"
@@ -28,17 +28,15 @@
           unchecked-value-prop=""
           unchecked-label-prop="formaPagamento.nome"
           :with-field-label="withFieldLabel"
+          card-checkbox
           return-object
-          @oldList="emitOldList"
-          @oldChecked="emitOldChecked"
-          @input="emitInput"
         >
-          <template slot="extra" slot-scope="{ item, index }">
-            <template v-if="item.formaPagamentoId == 3">
+          <template slot-scope="{ checkedBindValue, checked, index }">
+            <template v-if="checkedBindValue == 3">
               <InstallmentsRadioField
-                :bind-value="item.parcelamentoEm"
-                :total="item.formaPagamento.parcelamentoMaximo"
-                :with-interest="item.formaPagamento.comJuros"
+                :bind-value="checked.parcelamentoEm"
+                :total="checked.formaPagamento.parcelamentoMaximo"
+                :with-interest="checked.formaPagamento.comJuros"
                 rules="required"
                 with-field-label
                 @input="setInstallmentNumber($event, index)"
@@ -104,6 +102,15 @@ export default {
     };
   },
   computed: {
+    Checked: {
+      get() {
+        return this.checked;
+      },
+      set(obj) {
+        this.checked = obj;
+        this.emitInput();
+      },
+    },
     existListModel() {
       return exist(this.listModel);
     },
@@ -118,23 +125,27 @@ export default {
     setCheckedObject(payload) {
       this.checkedObject = payload;
     },
-    setInstallmentNumber(payload, key) {
-      if (this.checked && !this.checked[key]) return;
-      this.checked[key].parcelamentoEm = payload;
-      this.emitInput(this.checked);
+    existChecked(key) {
+      return this.checked && this.checked[key];
     },
-    emitOldList(payload) {
-      this.$emit("oldList", payload);
+    setInstallmentNumber(value, key) {
+      if (!this.existChecked) return;
+      this.checked[key].parcelamentoEm = value;
+      this.emitInput();
     },
-    emitOldChecked(payload) {
-      this.$emit("oldChecked", Object.values(payload));
+    resetInstallment(key) {
+      if (!this.existChecked) return;
+      this.checked[key].parcelamentoEm = null;
+      this.emitInput();
     },
-    emitInput(payload) {
-      this.$emit("input", Object.values(payload));
+    emitInput() {
+      this.$emit("input", Object.values(this.checked));
     },
   },
-  mounted() {
-    this.listModel = _cloneDeep(FormaPagamentoAtendimento.getAttendanceWithPaymentMethods());
+  created() {
+    this.listModel = _cloneDeep(
+      FormaPagamentoAtendimento.getAttendanceWithPaymentMethods()
+    );
   },
 };
 </script>

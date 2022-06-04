@@ -9,7 +9,7 @@
     <template v-else>
       <ValidationObserver ref="observer">
         <b-form>
-          <b-row  class="mb-3">
+          <b-row class="mb-3">
             <b-col>
               <FormTitle title="Sobre o atendimento" />
             </b-col>
@@ -22,46 +22,67 @@
           </b-row>
 
           <b-row>
-            <b-col>
-              <SpecialtyDropdownField
-                v-model="atendimento.profissional.especialidadeId"
-                :specialty-id="atendimento.profissional.especialidadeId"
-                label="Especialidade principal"
-                required
-                with-label
-                live-search
-              />
-            </b-col>
-          </b-row>
+            <b-col cols="12" xs="12" :md="fieldsGrid">
+              <b-row>
+                <b-col>
+                  <SpecialtyDropdownField
+                    v-model="atendimento.profissional.especialidadeId"
+                    :specialty-id="atendimento.profissional.especialidadeId"
+                    label="Especialidade principal"
+                    required
+                    with-label
+                    live-search
+                  />
+                </b-col>
+              </b-row>
 
+              <b-row class="mt-3">
+                <b-col cols="12">
+                  <MoneyField
+                    v-model="atendimento.preco"
+                    :bind-value="atendimento.preco"
+                    label="Informe o preço da consulta"
+                    rules="required_money"
+                    required-label
+                    with-label
+                    prefix-in-toolbar
+                  />
+                </b-col>
+              </b-row>
+
+              <!-- 
           <b-row class="mt-3">
             <b-col cols="12">
-              <MoneyField
-                v-model="atendimento.preco"
-                :bind-value="atendimento.preco"
-                label="Informe o preço da consulta"
-                rules="required_money"
-                required-label
-                with-label
-                prefix-in-toolbar
-              />
-            </b-col>
-          </b-row>
-
-          <b-row class="mt-3">
-            <b-col cols="12">
-              <PaymentMethodCheckboxField
+              <PaymentCheckbox
                 v-model="atendimento.formasPagamentoAtendimentos"
-                :default-checked="atendimento.formasPagamentoAtendimentos"
-                required-list
+                :bind-value="atendimento.formasPagamentoAtendimentos"
+                rules="required"
+                required-label
                 with-field-label
               />
             </b-col>
-          </b-row>
+          </b-row> -->
 
-          <b-row>
-            <b-col>
-              <slot name="submitButton"></slot>
+              <b-row class="mt-3">
+                <b-col cols="12">
+                  <PaymentMethodCheckboxField
+                    v-model="atendimento.formasPagamentoAtendimentos"
+                    :default-checked="atendimento.formasPagamentoAtendimentos"
+                    required-list
+                    with-field-label
+                  />
+                </b-col>
+              </b-row>
+
+              <b-row>
+                <b-col>
+                  <slot name="submitButton"></slot>
+                </b-col>
+              </b-row>
+            </b-col>
+
+            <b-col cols="12" xs="12" :md="defaultExtraRowGrid">
+              <slot name="extraRow"></slot>
             </b-col>
           </b-row>
         </b-form>
@@ -98,6 +119,26 @@ export default {
       type: Boolean,
       default: false,
       required: false,
+    },
+    extraRowGrid: {
+      type: [String, Number],
+      default: "12",
+      required: false,
+    },
+  },
+  computed: {
+    maxGrid() {
+      return 12;
+    },
+    defaultExtraRowGrid() {
+      return this.extraRowGrid <= this.maxGrid
+        ? this.extraRowGrid
+        : this.maxGrid;
+    },
+    fieldsGrid() {
+      return this.defaultExtraRowGrid < this.maxGrid
+        ? this.maxGrid - this.defaultExtraRowGrid
+        : this.maxGrid;
     },
   },
 };

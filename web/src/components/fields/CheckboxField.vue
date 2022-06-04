@@ -1,18 +1,10 @@
 <template>
   <div>
-    <InlineRow>
-      <label
-        v-if="withFieldLabel"
-        :class="{ required: requiredLabel }"
-        class="mr-5"
-        >{{ fieldLabel }}</label
-      >
-    </InlineRow>
-
+    <FieldLabel v-if="withFieldLabel" :label="fieldLabel" :required="requiredLabel" />
     <ValidationProvider
       v-slot="{ errors }"
       :name="fieldLabel"
-      :rules="allRules"
+      :rules="rules"
     >
       <b-form-checkbox
         :ref="uniqueRef"
@@ -38,12 +30,12 @@
 </template>
 
 <script>
-import InlineRow from "@/components/rows/InlineRow.vue";
+import FieldLabel from "@/components/label/FieldLabel.vue";
 import VeeValidateErrorMessage from "@/components/veeValidate/VeeValidateErrorMessage";
 
 export default {
   components: {
-    InlineRow,
+    FieldLabel,
     VeeValidateErrorMessage,
   },
   props: {
@@ -66,19 +58,9 @@ export default {
       default: "{Campo}",
       required: false,
     },
-    id: {
-      type: String,
-      default: null,
-      required: false,
-    },
     inlineFieldLabel: {
       type: Boolean,
       default: false,
-      required: false,
-    },
-    name: {
-      type: String,
-      default: null,
       required: false,
     },
     requiredLabel: {
@@ -86,19 +68,9 @@ export default {
       default: false,
       required: false,
     },
-    /*
-      exemplo: regra_um|regra_dois 
-      Obs 1: separar por pipe
-      Obs 2: não adicionar pipe no início ou no final
-    */
     rules: {
       type: String,
       default: "",
-      required: false,
-    },
-    reset: {
-      type: [Number, Boolean],
-      default: false,
       required: false,
     },
     uncheckedValue: {
@@ -127,11 +99,6 @@ export default {
       field: null,
     };
   },
-  watch: {
-    reset(payload) {
-      if (payload) this.Field = this.uncheckedValue;
-    },
-  },
   computed: {
     Field: {
       get() {
@@ -159,26 +126,6 @@ export default {
     trueFalseLabel() {
       return this.field ? this.checkedLabel : this.uncheckedLabel;
     },
-    /*validation rules*/
-    defaultRules() {
-      return "";
-    },
-    propRules() {
-      return this.rules ? this.rules : "";
-    },
-    listRules() {
-      return [this.defaultRules, this.rules];
-    },
-    cleanListRules() {
-      const results = this.listRules.filter((element) => {
-        return element !== "";
-      });
-
-      return results;
-    },
-    allRules() {
-      return this.cleanListRules.join("|");
-    },
   },
   methods: {
     emitChecked() {
@@ -194,7 +141,7 @@ export default {
       this.$emit("input", this.field);
     },
   },
-  created() {
+  mounted() {
     this.field = this.bindValue;
   },
 };

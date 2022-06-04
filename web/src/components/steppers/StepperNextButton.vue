@@ -15,10 +15,12 @@
 </template>
 
 <script>
+import stepperBus from "@/events/stepper";
 import RoundedButton from "@/components/buttons/RoundedButton.vue";
 import StepperProgressBar from "@/components/steppers/StepperProgressBar.vue";
 
 export default {
+  inject: ["stepperKey"],
   components: {
     RoundedButton,
     StepperProgressBar,
@@ -46,7 +48,7 @@ export default {
       if (this.emitRootEvent) this.rootEmit();
     },
     rootEmit() {
-      this.$store.dispatch("stepper/emitNextButtonClick");
+      stepperBus.emitNextClick(this.stepperKey());
     },
   },
 };
@@ -54,3 +56,8 @@ export default {
 
 <style>
 </style>
+
+<!--
+      //this.$store.dispatch("stepper/emitNextButtonClick", this.stepperKey);
+
+  -->

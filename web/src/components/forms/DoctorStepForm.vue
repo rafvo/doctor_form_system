@@ -4,18 +4,20 @@
       <StepperContent step="1">
         <Card>
           <b-row>
-            <b-col cols="12" xs="12" md="6">
+            <b-col cols="12" xs="12" md="12">
               <DoctorAboutProfessionalForm
                 :profissional="atendimento.profissional"
                 :loading="loading"
+                :extra-row-grid="6"
               >
+                <template #extraRow>
+                  <ImageRender image-loader-computed-prop="doctor1" />
+                </template>
+
                 <template #submitButton>
                   <StepperNextButton class="mt-5" with-progress />
                 </template>
               </DoctorAboutProfessionalForm>
-            </b-col>
-            <b-col cols="12" xs="12" md="6">
-              <ImageRender image-loader-computed-prop="doctor1" />
             </b-col>
           </b-row>
         </Card>
@@ -25,18 +27,20 @@
         <StepperPreviousButton />
         <Card>
           <b-row>
-            <b-col cols="12" xs="12" md="6">
+            <b-col cols="12" xs="12" md="12">
               <DoctorAboutServiceForm
                 :atendimento="atendimento"
                 :loading="loading"
+                :extra-row-grid="6"
               >
                 <template #submitButton>
                   <StepperNextButton class="mt-5" with-progress />
                 </template>
+
+                <template #extraRow>
+                  <ImageRender image-loader-computed-prop="doctor2" />
+                </template>
               </DoctorAboutServiceForm>
-            </b-col>
-            <b-col cols="12" xs="12" md="6">
-              <ImageRender image-loader-computed-prop="doctor2" />
             </b-col>
           </b-row>
         </Card>
@@ -46,11 +50,12 @@
         <StepperPreviousButton />
         <Card>
           <b-row>
-            <b-col cols="12" xs="12" md="6">
-              <DoctorFormReview :atendimento="atendimento" />
-            </b-col>
-            <b-col cols="12" xs="12" md="6">
-              <ImageRender image-loader-computed-prop="doctor3" />
+            <b-col cols="12" xs="12" md="12">
+              <DoctorFormReview :atendimento="atendimento" :extra-row-grid="6">
+                <template #extraRow>
+                  <ImageRender image-loader-computed-prop="doctor3" />
+                </template>
+              </DoctorFormReview>
             </b-col>
           </b-row>
         </Card>

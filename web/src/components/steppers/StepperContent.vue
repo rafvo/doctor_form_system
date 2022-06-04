@@ -1,13 +1,13 @@
 <template>
   <div>
     <slot v-if="stepEnable"></slot>
+    <span v-if="stepEnable">{{ injectedStepper }}</span>
   </div>
 </template>
 
 <script>
-// import Stepper from "@/domain/objects/stepper";
-
 export default {
+  inject: ["stepper"],
   props: {
     step: {
       type: [String, Number],
@@ -16,11 +16,11 @@ export default {
     },
   },
   computed: {
-    stepper() {
-      return this.$store.state.stepper.model;
+    injectedStepper() {
+      return this.stepper();
     },
     stepEnable() {
-      return this.stepper.currentStep == this.step;
+      return this.injectedStepper.currentStep == this.step;
     },
   },
 };
