@@ -1,6 +1,6 @@
 <template>
   <InlineRow>
-    <label v-if="show" :class="{ required: required }" class="mr-5">{{
+    <label :class="{ required: required }" class="mr-5">{{
       label
     }}</label>
   </InlineRow>
@@ -22,11 +22,6 @@ export default {
     required: {
       type: Boolean,
       default: false,
-      required: false,
-    },
-    show: {
-      type: Boolean,
-      default: true,
       required: false,
     },
   },

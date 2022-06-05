@@ -1,22 +1,22 @@
 <template>
   <div>
-    <RoundedButton
-      button-classes="btn-white"
-      block
+    <LinkButton
+      class="link-btn"
+      :class="{ 'text-center': centered}"
       @click="(event) => $emit('click', event)"
       @click:prevent="(event) => $emit('click:prevent', event)"
     >
       {{ title }}
-    </RoundedButton>
+    </LinkButton>
   </div>
 </template>
 
 <script>
-import RoundedButton from "./RoundedButton.vue";
+import LinkButton from "./LinkButton.vue";
 
 export default {
   components: {
-    RoundedButton,
+    LinkButton,
   },
   props: {
     title: {
@@ -24,6 +24,11 @@ export default {
       default: "Editar Cadastro",
       required: false,
     },
+    centered: {
+      type: Boolean,
+      default: false,
+      required: false
+    }
   },
 };
 </script>

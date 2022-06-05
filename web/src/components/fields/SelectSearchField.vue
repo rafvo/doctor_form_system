@@ -69,7 +69,6 @@ import { exist } from "@/util/exist";
 
 export default {
   props: {
-    /*required*/
     options: {
       type: Array,
       default: () => [{ id: null, label: "Selecione" }],
@@ -80,7 +79,6 @@ export default {
       default: true,
       required: false,
     },
-    /*not required*/
     bindValue: {
       type: [String, Number],
       default: null,
@@ -168,7 +166,6 @@ export default {
       set(v) {
         if (!v) v = false;
         this.focus = v;
-        //if (!this.focus) this.$refs[this.inputSearchRef].blur();
       },
     },
     uniqueKeyUid() {
@@ -192,15 +189,16 @@ export default {
     existSelectedObject() {
       return exist(this.selectedObject);
     },
-    existSelectedLabel(){
-      if(!this.existSelectedObject) return false;
-      return exist(this.selectedObject[this.labelOptionKey])
+    existSelectedLabel() {
+      if (!this.existSelectedObject) return false;
+      return exist(this.selectedObject[this.labelOptionKey]);
     },
     selectedObject() {
-      const list = this.options
-        .filter((f) => f[this.uniqueOptionKey] == this.uniqueKey);
+      const list = this.options.filter(
+        (f) => f[this.uniqueOptionKey] == this.uniqueKey
+      );
 
-      return list[0];  
+      return list[0];
     },
     selectedLabel() {
       if (!this.existSelectedLabel) return "";
@@ -252,11 +250,6 @@ export default {
     inputEsc() {
       this.focus = false;
     },
-    // seletedObject() {
-    //   return this.options
-    //     .filter((f) => f[this.uniqueOptionKey] == this.bindValue)
-    //     .shift();
-    // },
     escKey($event) {
       if ($event.keyCode === 27) {
         this.focus = false;
@@ -311,8 +304,14 @@ export default {
   text-align: left;
   /* padding-bottom: 20px; */
 }
-/* 
-.select-search-list ::-webkit-scrollbar {
-  padding-bottom: 20px;
-} */
 </style>
+
+<!--
+
+    // seletedObject() {
+    //   return this.options
+    //     .filter((f) => f[this.uniqueOptionKey] == this.bindValue)
+    //     .shift();
+    // },
+
+    -->

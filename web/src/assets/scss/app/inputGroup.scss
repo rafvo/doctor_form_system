@@ -3,3 +3,7 @@
     color: var(--text-field-input-group-text-color);
     border-radius: 0px!important;
 }
+
+.btn-toolbar .input-group {
+    width: -webkit-fill-available!important;
+}

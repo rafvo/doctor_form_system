@@ -1,3 +1,15 @@
-.cursor-pointer{
-    cursor: pointer!important;
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+@media (max-width: $mobile_max_width) {
+  body {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+}
+
+html {
+  margin:0!important;
+  padding: 0!important;
 }

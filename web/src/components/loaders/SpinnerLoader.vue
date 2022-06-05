@@ -8,7 +8,7 @@
   >
     <InlineRow>
       <b-spinner
-        variant="primary"
+        :variant="variant"
         :small="small"
         :style="{
           width: width,
@@ -30,7 +30,7 @@ export default {
     InlineRow,
   },
   props: {
-    color: {
+    variant: {
       type: String,
       default: "primary",
       required: false,

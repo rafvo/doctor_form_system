@@ -1,11 +1,6 @@
 <template>
   <div>
-    <InlineRow>
-      <label v-if="withLabel" :class="{ required: required }" class="mr-5">{{
-        label
-      }}</label>
-    </InlineRow>
-
+    <FieldLabel v-if="withLabel" :label="label" :required="required" />
     <SpinnerLoader
       v-if="loading"
       width="1.5rem"
@@ -44,15 +39,15 @@
 
 <script>
 import _cloneDeep from "lodash/cloneDeep";
-import { exist } from '@/util/exist'
-import InlineRow from "@/components/rows/InlineRow.vue";
+import { exist } from "@/util/exist";
+import FieldLabel from "@/components/label/FieldLabel.vue";
 import SpinnerLoader from "@/components/loaders/SpinnerLoader.vue";
 import VeeValidateErrorMessage from "@/components/veeValidate/VeeValidateErrorMessage";
 import SelectSearchField from "./SelectSearchField.vue";
 
 export default {
   components: {
-    InlineRow,
+    FieldLabel,
     SpinnerLoader,
     VeeValidateErrorMessage,
     SelectSearchField,
@@ -169,7 +164,7 @@ export default {
     },
   },
   methods: {
-      isValid({ isValid = false, errors = [] } = {}) {
+    isValid({ isValid = false, errors = [] } = {}) {
       if (!exist(errors)) return true;
 
       return isValid;
@@ -188,9 +183,9 @@ export default {
       this.$emit("object", this.selected);
     },
   },
-  mounted(){
-    this.field = _cloneDeep(this.bindValue)
-  }
+  mounted() {
+    this.field = _cloneDeep(this.bindValue);
+  },
 };
 </script>
 

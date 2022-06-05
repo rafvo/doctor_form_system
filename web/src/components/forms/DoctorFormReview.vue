@@ -91,8 +91,7 @@
 
         <b-row class="mt-4">
           <b-col cols="12" xs="12" md="12">
-            <ProfessionalRegisterButton />
-            <ProfessionalEditButton class="mt-3" />
+            <slot name="submitButton"></slot>
           </b-col>
         </b-row>
       </b-col>
@@ -111,9 +110,6 @@ import FormReviewFormat from "@/components/typography/FormReviewFormat.vue";
 import CityAndStateInformation from "@/components/info/CityAndStateInformation.vue";
 import SpecialtyInformation from "@/components/info/SpecialtyInformation.vue";
 import PaymentMethodListInformation from "@/components/info/PaymentMethodListInformation.vue";
-import ProfessionalRegisterButton from "@/components/buttons/ProfessionalRegisterButton.vue";
-import ProfessionalEditButton from "@/components/buttons/ProfessionalEditButton.vue";
-
 export default {
   components: {
     FormTitle,
@@ -121,8 +117,6 @@ export default {
     CityAndStateInformation,
     SpecialtyInformation,
     PaymentMethodListInformation,
-    ProfessionalRegisterButton,
-    ProfessionalEditButton,
   },
   props: {
     atendimento: {

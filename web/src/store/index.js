@@ -4,7 +4,6 @@ import cidades from "./modules/cidades";
 import especialidades from "./modules/especialidades";
 import estados from "./modules/estados";
 import profissionais from "./modules/profissionais";
-import stepper from "./modules/stepper";
 
 Vue.use(Vuex);
 
@@ -16,7 +15,6 @@ export default new Vuex.Store({
     cidades,
     especialidades,
     estados,
-    profissionais,
-    stepper
+    profissionais
   },
 });

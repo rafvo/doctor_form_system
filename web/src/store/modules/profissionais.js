@@ -1,34 +1,28 @@
 import Vue from "vue";
 import Axios from "@/interceptors/axios";
-// import Profissionais from "@/domain/model/profissionais";
+import Profissionais from "@/domain/models/profissionais";
 import ProfissionaisFiltros from "@/domain/filters/profissionais";
+import { uniqueId } from "@/util/uniqueId";
 
 export default {
   namespaced: true,
   state: {
+    data: {},
     all: {},
-    active: false,
   },
-  getters: {
-    active(state) {
-      return state.active ? state.all[state.active] : false;
-    },
-  },
+  getters: {},
   mutations: {
-    active(state, active) {
-      state.active = active;
-    },
-    flush(state) {
-      state.all = {};
-    },
-    add(state, model) {
-      Vue.set(state.all, model.id, model);
+    insert(state, model){
+      Vue.set(state.data, model.id, model);
     },
     update(state, { id, model }) {
-      state.all[id] = model;
+      state.data[id] = model;
     },
     delete(state, id) {
-      Vue.delete(state.all, id);
+      Vue.delete(state.data, id);
+    },
+    allAdd(state, { id, model }) {
+      Vue.set(state.all, id, model);
     },
   },
   actions: {
@@ -36,7 +30,7 @@ export default {
       if (!all) all = [];
 
       for (let model of all) {
-        commit("add", model);
+        commit("all", model);
       }
     },
     getAll({ dispatch }, { professionalFilter = new ProfissionaisFiltros() }) {
@@ -51,6 +45,10 @@ export default {
             reject(error);
           });
       });
+    },
+    insert({ commit }, { professional = new Profissionais() }) {
+      professional.id = uniqueId();
+      commit("insert", professional);
     },
   },
 };

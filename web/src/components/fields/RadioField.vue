@@ -1,18 +1,13 @@
 <template>
   <div>
-    <b-form-group
-      :class="{ 'inline-block': inlineOptions && inlineLabel }"
-      v-slot="{ ariaDescribedby }"
-    >
+    <b-form-group v-slot="{ ariaDescribedby }">
       <ValidationProvider v-slot="{ errors }" :name="fieldLabel" :rules="rules">
-        <label
+        <FieldLabel
           v-if="withFieldLabel"
-          :class="{ required: requiredLabel }"
-          class="mr-5"
-          >{{ fieldLabel }}</label
-        >
+          :label="fieldLabel"
+          :required="requiredLabel"
+        />
         <b-form-radio-group
-          :class="{ 'd-flex flex-direction-row': inlineOptions }"
           :id="uniqueKey"
           :name="uniqueNameKey"
           v-model="Field"
@@ -34,10 +29,12 @@
 
 <script>
 import _cloneDeep from "lodash/cloneDeep";
+import FieldLabel from "@/components/label/FieldLabel.vue";
 import VeeValidateErrorMessage from "@/components/veeValidate/VeeValidateErrorMessage";
 
 export default {
   components: {
+    FieldLabel,
     VeeValidateErrorMessage,
   },
   props: {
@@ -85,16 +82,6 @@ export default {
       required: false,
     },
     requiredLabel: {
-      type: Boolean,
-      default: false,
-      required: false,
-    },
-    inlineLabel: {
-      type: Boolean,
-      default: false,
-      required: false,
-    },
-    inlineOptions: {
       type: Boolean,
       default: false,
       required: false,

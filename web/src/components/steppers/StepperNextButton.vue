@@ -1,7 +1,8 @@
 <template>
   <div>
-    <StepperProgressBar class="mb-3" v-if="withProgress" />
+    <StepperProgressBar v-if="withProgress" />
     <RoundedButton
+      class="stepper-button"
       button-classes="btn-primary-0"
       block
       uppercase-title
@@ -45,9 +46,10 @@ export default {
   methods: {
     onClickPrevent(event) {
       this.$emit("click:prevent", event);
-      if (this.emitRootEvent) this.rootEmit();
+      this.rootEmit();
     },
     rootEmit() {
+      if (!this.emitRootEvent) return;
       stepperBus.emitNextClick(this.stepperKey());
     },
   },

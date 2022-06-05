@@ -1,5 +1,9 @@
 <template>
-  <IconButton icon="chevron-left" @click:prevent="onClickPrevent" />
+  <IconButton
+    class="stepper-button"
+    icon="chevron-left"
+    @click:prevent="onClickPrevent"
+  />
 </template>
 
 <script>
@@ -21,9 +25,10 @@ export default {
   methods: {
     onClickPrevent(event) {
       this.$emit("click:prevent", event);
-      if (this.emitRootEvent) this.rootEmit();
+      this.rootEmit();
     },
     rootEmit() {
+      if (!this.emitRootEvent) return;
       stepperBus.emitPreviousClick(this.stepperKey());
     },
   },

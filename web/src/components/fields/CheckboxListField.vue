@@ -7,7 +7,7 @@
     </b-row>
 
     <b-row
-      v-for="obj in clonedOptions"
+      v-for="obj in options"
       :key="checkedValue(obj)"
       :class="{ 'mt-3': cardCheckbox }"
     >
@@ -25,7 +25,7 @@
               :uncheckedValue="uncheckedValue(obj)"
               :checkedLabel="checkedLabel(obj)"
               :uncheckedLabel="uncheckedLabel(obj)"
-              :fieldLabel="fieldLabel"
+              :fieldLabel="checkedLabel(obj)"
               :rules="rules"
               with-true-false-label
               @checked="add($event, { obj: obj, key: checkedValue(obj) })"
@@ -125,41 +125,13 @@ export default {
       default: false,
       required: false,
     },
-    withTrueFalseLabel: {
-      type: Boolean,
-      default: false,
-      required: false,
-    },
   },
   data() {
     return {
-      oldList: null,
-      oldChecked: null,
-      clonedOptions: [],
       checked: {},
     };
   },
   computed: {
-    ClonedOptions: {
-      get() {
-        return this.clonedOptions;
-      },
-      set(arr) {
-        if (!arr) arr = [];
-        this.clonedOptions = arr;
-        this.Checked = _cloneDeep(this.checkedOptions());
-      },
-    },
-    OldList: {
-      get() {
-        return this.oldList;
-      },
-      set(arr) {
-        if (!arr) arr = [];
-        this.oldList = arr;
-        this.emitOldList();
-      },
-    },
     Checked: {
       get() {
         return this.checked;
@@ -175,14 +147,14 @@ export default {
     existList() {
       return exist(this.list);
     },
-    objectOptions() {
-      return this.clonedOptions.reduce((acc, obj) => {
-        Vue.set(acc, this.checkedValue(obj), obj);
-        return acc;
-      }, {});
-    },
   },
   methods: {
+    existBindValue(obj) {
+      return exist(this.objBindValue(obj));
+    },
+    existCheckedObj(key) {
+      return this.checked && this.checked[key];
+    },
     objBindValue(obj) {
       return getObjValue(obj, { key: this.bindValueProp });
     },
@@ -202,11 +174,14 @@ export default {
     uncheckedLabel(obj) {
       return getObjValue(obj, { key: this.uncheckedLabelProp });
     },
-    existBindValue(obj) {
-      return exist(this.objBindValue(obj));
-    },
-    existCheckedObj(key) {
-      return this.checked && this.checked[key];
+    checkedOptions() {
+      let arr = _cloneDeep(this.defaultChecked);
+      return arr.reduce((acc, obj) => {
+        if (this.existBindValue(obj)) {
+          Vue.set(acc, this.checkedValue(obj), obj);
+          return acc;
+        }
+      }, {});
     },
     add(value, { obj, key } = {}) {
       if (this.existCheckedObj(key)) return;
@@ -218,28 +193,14 @@ export default {
       Vue.delete(this.checked, key);
       this.emitInput();
     },
-    checkedOptions() {
-      let arr = _cloneDeep(this.defaultChecked);
-      return arr.reduce((acc, obj) => {
-        if (this.existBindValue(obj)) {
-          Vue.set(acc, this.checkedValue(obj), obj);
-          return acc;
-        }
-      }, {});
-    },
-    emitOldChecked() {
-      this.$emit("oldChecked", Object.values(this.oldChecked));
-    },
-    emitOldList() {
-      this.$emit("oldList", this.oldList);
-    },
     emitInput() {
-      if (this.returnObject) this.$emit("input", this.checked);
-      else this.$emit("input", Object.values(this.checked));
+      this.$emit(
+        "input",
+        this.returnObject ? this.checked : Object.values(this.checked)
+      );
     },
   },
   created() {
-    this.clonedOptions = _cloneDeep(this.options);
     this.Checked = _cloneDeep(this.checkedOptions());
   },
 };
@@ -256,18 +217,3 @@ export default {
   visibility: visible !important;
 }
 </style>
-
-<!--
-    //assign(acc, this.bindValueProp, this.checkedValue(obj));
-    // checkedList(payload) {
-    //   if (!exist(payload)) return {};
-    //   var obj = {};
-    //   payload.forEach((item, key) => {
-    //     if (item[this.bindValueProp] != null) Vue.set(obj, key, item);
-    //   });
-    //   return obj;
-    // },
-
-     // this.list[key][this.bindValueProp] = value;
-      // this.list[key][this.bindValueProp] = null;
-    -->

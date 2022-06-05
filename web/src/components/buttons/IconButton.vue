@@ -5,7 +5,7 @@
       @click="(event) => $emit('click', event)"
       @click.prevent="(event) => $emit('click:prevent', event)"
     >
-      <b-icon icon="chevron-left"></b-icon>
+      <b-icon :icon="icon"></b-icon>
     </b-link>
   </div>
 </template>
@@ -15,7 +15,7 @@ export default {
   props: {
     icon: {
       type: String,
-      default: "",
+      default: "chevron-left",
       required: false,
     },
   },

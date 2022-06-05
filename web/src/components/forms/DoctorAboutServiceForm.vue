@@ -42,26 +42,13 @@
                     v-model="atendimento.preco"
                     :bind-value="atendimento.preco"
                     label="Informe o preço da consulta"
-                    rules="required_money"
+                    rules="required_money|min_value:30|max_value:350"
                     required-label
                     with-label
                     prefix-in-toolbar
                   />
                 </b-col>
               </b-row>
-
-              <!-- 
-          <b-row class="mt-3">
-            <b-col cols="12">
-              <PaymentCheckbox
-                v-model="atendimento.formasPagamentoAtendimentos"
-                :bind-value="atendimento.formasPagamentoAtendimentos"
-                rules="required"
-                required-label
-                with-field-label
-              />
-            </b-col>
-          </b-row> -->
 
               <b-row class="mt-3">
                 <b-col cols="12">

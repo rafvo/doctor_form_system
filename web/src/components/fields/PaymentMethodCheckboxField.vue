@@ -31,7 +31,7 @@
           card-checkbox
           return-object
         >
-          <template slot-scope="{ checkedBindValue, checked, index }">
+          <template v-slot="{ checkedBindValue, checked, index }">
             <template v-if="checkedBindValue == 3">
               <InstallmentsRadioField
                 :bind-value="checked.parcelamentoEm"
@@ -115,7 +115,7 @@ export default {
       return exist(this.listModel);
     },
     requiredListRule() {
-      return this.requiredList ? "required" : "";
+      return this.requiredList ? "exist" : "";
     },
     requiredItemsRule() {
       return this.requiredItems ? "required" : "";

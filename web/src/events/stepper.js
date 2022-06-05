@@ -1,27 +1,39 @@
-import Vue from 'vue';
+import Vue from "vue";
 
 export default new Vue({
   methods: {
     /*previous step*/
-    emitPreviousClick(stepperEvent) {
-      this.$emit("previous:click", stepperEvent);
+    emitPreviousClick(stepperKey) {
+      this.$emit("previous:click", stepperKey);
     },
-    onPreviousClick(stepperEvent) {
-      this.$on("previous:click", stepperEvent);
+    onPreviousClick(callback) {
+      this.$on("previous:click", callback);
     },
-    offPreviousClick(stepperEvent = null) {
-      this.$off("previous:click", stepperEvent);
+    offPreviousClick(callback = null) {
+      this.$off("previous:click", callback);
     },
 
     /*next step*/
-    emitNextClick(stepperEvent) {
-      this.$emit("next:click", stepperEvent);
+    emitNextClick(stepperKey) {
+      this.$emit("next:click", stepperKey);
     },
-    onNextClick(stepperEvent) {
-      this.$on("next:click", stepperEvent);
+    onNextClick(callback) {
+      this.$on("next:click", callback);
     },
-    offNextClick(stepperEvent = null) {
-      this.$off("next:click", stepperEvent);
+    offNextClick(callback = null) {
+      this.$off("next:click", callback);
+    },
+
+    /*go to step*/
+    emitGoToStep({ stepperKey, goToStep }) {
+      this.$emit("goToStep", { stepperKey: stepperKey, goToStep: goToStep });
+    },
+    onGoToStep(callback) {
+      console.log(callback);
+      this.$on("goToStep", callback);
+    },
+    offGoToStep(callback = null) {
+      this.$off("goToStep", callback);
     },
   },
 });

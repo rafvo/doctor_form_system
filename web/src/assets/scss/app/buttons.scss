@@ -1,19 +1,26 @@
-.bnt-cta-0{
-    background: $cta_0!important;
-    color: $black!important;
-    border-color: $cta_0!important;
+.bnt-cta-0 {
+  background: $cta_0 !important;
+  color: $black !important;
+  border-color: $cta_0 !important;
 }
 
 .btn-primary-0 {
-    background: $primary_0!important;
-    color: $white!important;
-    border-color: $primary_0!important;
+  background: $primary_0 !important;
+  color: $white !important;
+  border-color: $primary_0 !important;
 }
 
-.btn-white {
-    font-family: 'Comfortaa', cursive;
-    background: $white!important;
-    color: $primary_0!important;
-    font-weight: bold;
-    border-color: $white!important;
+.link-btn {
+  font-family: "Comfortaa", cursive;
+}
+
+.link-btn a {
+  color: $primary_0 !important;
+  font-weight: bold !important;
+}
+
+@media (max-width: $mobile_max_width) {
+  .stepper-button {
+    margin-bottom: 10px;
+  }
 }

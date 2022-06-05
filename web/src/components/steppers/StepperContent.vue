@@ -1,7 +1,6 @@
 <template>
   <div>
     <slot v-if="stepEnable"></slot>
-    <span v-if="stepEnable">{{ injectedStepper }}</span>
   </div>
 </template>
 

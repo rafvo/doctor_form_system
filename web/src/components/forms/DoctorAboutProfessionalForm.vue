@@ -22,7 +22,7 @@
           </b-row>
 
           <b-row>
-            <b-col cols="12" xs="12" :md="fieldsGrid">
+            <b-col cols="12" xs="12" sm="12" :md="fieldsGrid">
               <b-row>
                 <b-col>
                   <TextField
@@ -30,13 +30,13 @@
                     :bind-value="profissional.nome"
                     label="Nome Completo"
                     placeholder="Digite o nome completo"
-                    rules="required|min:3|max:48"
+                    rules="required|min:3|max:48|alpha_spaces"
                     required-label
                   />
                 </b-col>
               </b-row>
 
-              <b-row :class="marginTopFields">
+              <b-row class="mt-30">
                 <b-col>
                   <CpfField
                     v-model="profissional.cpf"
@@ -50,7 +50,7 @@
                 </b-col>
               </b-row>
 
-              <b-row :class="marginTopFields">
+              <b-row class="mt-30">
                 <b-col>
                   <PhoneField
                     v-model="profissional.phone"
@@ -64,7 +64,7 @@
                 </b-col>
               </b-row>
 
-              <b-row :class="marginTopFields">
+              <b-row class="mt-30">
                 <b-col>
                   <CityDropdownField
                     v-model="profissional.cidadeId"
@@ -85,7 +85,7 @@
               </b-row>
             </b-col>
 
-            <b-col cols="12" xs="12" :md="defaultExtraRowGrid">
+            <b-col cols="12" xs="12" sm="12" :md="defaultExtraRowGrid">
               <slot name="extraRow"></slot>
             </b-col>
           </b-row>
@@ -126,11 +126,6 @@ export default {
       default: false,
       required: false,
     },
-    distanceFieldsInPixels: {
-      type: [String, Number],
-      default: 30,
-      required: false,
-    },
     extraRowGrid: {
       type: [String, Number],
       default: "12",
@@ -148,16 +143,6 @@ export default {
       return this.defaultExtraRowGrid < this.maxGrid
         ? this.maxGrid - this.defaultExtraRowGrid
         : this.maxGrid;
-    },
-    marginTopFields() {
-      return this.distanceFieldsInPixels && this.distanceFieldsInPixels <= 200
-        ? `mt-${this.distanceFieldsInPixels}`
-        : 30;
-    },
-  },
-  methods: {
-    insert() {
-      console.log("inserting");
     },
   },
 };

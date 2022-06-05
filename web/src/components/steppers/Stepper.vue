@@ -27,6 +27,7 @@ export default {
     return {
       stepperKey: () => this.componentKey,
       stepper: () => this.stepper,
+      stepperInstance: () => this,
     };
   },
   data() {
@@ -70,14 +71,17 @@ export default {
     validate() {
       return this.$refs.observer.validate();
     },
+    goToStep(step) {
+      this.Step = step;
+    },
     previousStep() {
-      this.Step--;
+      if (this.isValidPreviousStep) this.Step--;
     },
     async nextStep() {
       var valid = await this.validate();
       if (!valid) return;
 
-      this.Step++;
+      if (this.isValidNextStep) this.Step++;
     },
     emitInput() {
       this.$emit("input", this.step);
@@ -97,10 +101,17 @@ export default {
         this.nextStep();
       }
     });
+
+    stepperBus.onGoToStep(({ stepperKey, goToStep }) => {
+      if (stepperKey == this.componentKey) {
+        this.goToStep(goToStep);
+      }
+    });
   },
   destroyed() {
     stepperBus.offPreviousClick();
     stepperBus.offNextClick();
+    stepperBus.offGoToStep();
   },
 };
 </script>

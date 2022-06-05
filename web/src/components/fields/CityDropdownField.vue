@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-row>
-      <b-col md="6">
+      <b-col cols="12" xs="12" md="6">
         <template v-if="withStateField">
           <slot name="stateField" :state="state">
             <StateDropdownField
@@ -17,7 +17,7 @@
           </slot>
         </template>
       </b-col>
-      <b-col md="6">
+      <b-col class="city-dropdown" cols="12" xs="12" md="6">
         <DropdownField
           v-model="Id"
           :ref="uniqueCityKey"
@@ -278,5 +278,12 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+@import '~@/assets/scss/variables/constants';
+
+@media (max-width: $mobile_max_width) {
+  .city-dropdown {
+    margin-top: 15px;
+  }
+}
 </style>

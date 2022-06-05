@@ -5,14 +5,29 @@
     @click="(event) => $emit('click', event)"
     @click.prevent="(event) => $emit('click:prevent', event)"
   >
-    <span :class="{ 'text-uppercase': uppercaseTitle }">
-      <slot>{{ title }}</slot>
-    </span>
+    <SpinnerLoader
+      v-if="loading"
+      :variant="spinnerVariant"
+      width="1.5rem"
+      height="1.5rem"
+      justify-content="center"
+      small
+    />
+    <template v-else>
+      <span :class="{ 'text-uppercase': uppercaseTitle }">
+        <slot>{{ title }}</slot>
+      </span>
+    </template>
   </b-button>
 </template>
 
 <script>
+import SpinnerLoader from "@/components/loaders/SpinnerLoader.vue";
+
 export default {
+  components: {
+    SpinnerLoader,
+  },
   props: {
     title: {
       type: String,
@@ -37,6 +52,16 @@ export default {
     uppercaseTitle: {
       type: Boolean,
       default: false,
+      required: false,
+    },
+    loading: {
+      type: Boolean,
+      default: false,
+      required: false,
+    },
+    spinnerVariant: {
+      type: String,
+      default: "primary",
       required: false,
     },
   },

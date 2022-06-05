@@ -1,22 +1,27 @@
 <template>
   <div class="text-field">
-    <label
+   
+    <!-- <label
       v-if="withLabel"
       :class="{ required: requiredLabel }"
       :for="uniqueRef"
       >{{ label }}</label
-    >
+    > -->
     <ValidationProvider
       v-slot="{ errors, valid }"
       :name="label"
       :rules="allRules"
     >
+
+      <FieldLabel v-if="withLabel" :label="label" :required="requiredLabel" />  
       <b-button-toolbar v-if="prefixInToolbar">
         <b-button-group class="mr-1"></b-button-group>
         <b-input-group :prepend="prefix">
           <money
             class="form-control"
-            :class="{ 'is-invalid': !isValid({ isValid: valid, errors: errors }) }"
+            :class="{
+              'is-invalid': !isValid({ isValid: valid, errors: errors }),
+            }"
             v-model="Field"
             v-bind="money"
             :ref="uniqueRef"
@@ -45,11 +50,13 @@
 </template>
 
 <script>
-import { exist } from '@/util/exist'
+import { exist } from "@/util/exist";
+import FieldLabel from "@/components/label/FieldLabel.vue";
 import VeeValidateErrorMessage from "@/components/veeValidate/VeeValidateErrorMessage";
 
 export default {
   components: {
+    FieldLabel,
     VeeValidateErrorMessage,
   },
   props: {
@@ -128,7 +135,7 @@ export default {
     },
     thousands: {
       type: String,
-      default: ".",
+      default: "",
       required: false,
     },
     prefix: {
@@ -251,7 +258,4 @@ export default {
 </script>
 
 <style scoped>
-.btn-toolbar {
-  display: inherit !important;
-}
 </style>

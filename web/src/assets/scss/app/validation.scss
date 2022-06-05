@@ -1,5 +1,5 @@
 .form-control:invalid, .form-control.is-invalid{
-    border-color: #dc3545!important;
+    border-color: $danger!important;
     background-image: unset!important;
 }
 

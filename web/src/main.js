@@ -1,11 +1,12 @@
 import Vue from "vue";
 import App from "./App.vue";
-import "@/plugins/bootstrapVue";
-import "@/plugins/vueMask";
-import "@/plugins/veeValidate";
-import "@/plugins/vMoney";
-import "@/directives";
-import "@/assets/scss/app.scss"
+import "./plugins/bootstrapVue";
+import "./plugins/vueMask";
+import "./plugins/veeValidate";
+import "./plugins/vMoney";
+import "./plugins/vueToastification";
+import "./directives";
+import "./assets/scss/app.scss"
 import store from './store'
 import router from "./router";
 
