@@ -1,5 +1,5 @@
+import Atendimentos from "./atendimentos";
 import Cidades from "./cidades";
-import Especialidades from "./especialidades";
 
 export default class Profissionais {
   constructor({
@@ -8,8 +8,8 @@ export default class Profissionais {
     cpf = null,
     cidade = new Cidades(),
     cidadeId = null,
-    especialidade = new Especialidades(),
-    especialidadeId = null,
+    atendimento = new Atendimentos(),
+    atendimentoId = null,
     phone = null,
   } = {}) {
     this.id = id;
@@ -17,8 +17,8 @@ export default class Profissionais {
     this.cpf = cpf;
     this.cidade = cidade;
     this.cidadeId = cidadeId;
-    this.especialidade = especialidade;
-    this.especialidadeId = especialidadeId;
+    this.atendimento = atendimento;
+    this.atendimentoId = atendimentoId;
     this.phone = phone;
   }
 
@@ -34,16 +34,16 @@ export default class Profissionais {
   static fromJson(json = null) {
     var model = new Profissionais(json);
 
-    model.id = json["id"] ? parseInt(json["id"]) : null;
+    model.id = json["id"] ? json["id"] : null;
     model.nome = json["nome"] ? json["nome"] : null;
     model.cpf = json["cpf"] ? json["cpf"] : null;
     model.cidade = json["cidade"] ? Cidades.fromJson(json["cidade"]) : null;
     model.cidadeId = json["cidadeId"] ? parseInt(json["cidadeId"]) : null;
-    model.especialidade = json["especialidade"]
-      ? Especialidades.fromJson(json["especialidade"])
+    model.atendimento = json["atendimento"]
+      ? Atendimentos.fromJson(json["atendimento"])
       : null;
-    model.especialidadeId = json["especialidadeId"]
-      ? parseInt(json["especialidadeId"])
+    model.atendimentoId = json["atendimentoId"]
+      ? parseInt(json["atendimentoId"])
       : null;
     model.phone = json["phone"] ? json["phone"] : null;
 

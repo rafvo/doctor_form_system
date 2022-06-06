@@ -1,18 +1,20 @@
-import Profissionais from "./profissionais";
 import FormaPagamentoAtendimento from "./formaPagamentoAtendimento";
+import Especialidades from "./especialidades";
 
 export default class Atendimentos {
   constructor({
     id = "",
-    profissional = new Profissionais(),
     profissionalId = null,
     preco = null,
+    especialidade = new Especialidades(),
+    especialidadeId = null,
     formasPagamentoAtendimentos = [],
   } = {}) {
     this.id = id;
-    this.profissional = profissional;
     this.profissionalId = profissionalId;
     this.preco = preco;
+    this.especialidade = especialidade;
+    this.especialidadeId = especialidadeId;
     this.formasPagamentoAtendimentos = formasPagamentoAtendimentos;
   }
 
@@ -29,14 +31,16 @@ export default class Atendimentos {
     var model = new Atendimentos(json);
 
     model.id = json["id"] ? parseInt(json["id"]) : null;
-    model.profissional = json["profissional"]
-      ? Profissionais.fromJson(json["profissional"])
-      : null;
     model.profissionalId = json["profissionalId"]
       ? parseInt(json["profissionalId"])
       : null;
     model.preco = json["preco"] ? parseFloat(json["preco"]) : null;
-
+    model.especialidade = json["especialidade"]
+      ? Especialidades.fromJson(json["especialidade"])
+      : null;
+    model.especialidadeId = json["especialidadeId"]
+      ? parseInt(json["especialidadeId"])
+      : null;
     if (json["formasPagamentoAtendimentos"]) {
       model.formasPagamentoAtendimentos = json[
         "formasPagamentoAtendimentos"
@@ -46,13 +50,3 @@ export default class Atendimentos {
     return model;
   }
 }
-
-/*
-    // model.formasPagamento = json["formasPagamento"]
-    //   ? FormasPagamento.fromJson(json["formaPagamento"])
-    //   : null;
-    // model.formaPagamentoId = json["formaPagamentoId"]
-    //   ? parseInt(json["formaPagamentoId"])
-    //   : null;
-
-    */

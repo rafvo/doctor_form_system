@@ -11,7 +11,7 @@
           <b-col cols="12" xs="12" md="12">
             <FormReviewFormat
               label="Nome Completo"
-              :description="atendimento.profissional.nome"
+              :description="profissional.nome"
             />
           </b-col>
         </b-row>
@@ -20,9 +20,9 @@
           <b-col cols="12" xs="12" md="12">
             <FormReviewFormat
               label="CPF"
-              :show-empty-message="!atendimento.profissional.cpf"
+              :show-empty-message="!profissional.cpf"
             >
-              {{ atendimento.profissional.cpf | cpfcnpj }}
+              {{ profissional.cpf | cpfcnpj }}
             </FormReviewFormat>
           </b-col>
         </b-row>
@@ -31,9 +31,9 @@
           <b-col cols="12" xs="12" md="12">
             <FormReviewFormat
               label="Número de celular ou telefone"
-              :show-empty-message="!atendimento.profissional.phone"
+              :show-empty-message="!profissional.phone"
             >
-              {{ atendimento.profissional.phone | phoneCelphoneWithDDD }}
+              {{ profissional.phone | phoneCelphoneWithDDD }}
             </FormReviewFormat>
           </b-col>
         </b-row>
@@ -42,10 +42,10 @@
           <b-col cols="12" xs="12" md="12">
             <FormReviewFormat
               label="Estado/Cidade"
-              :show-empty-message="!atendimento.profissional.cidadeId"
+              :show-empty-message="!profissional.cidadeId"
             >
               <CityAndStateInformation
-                :city-id="atendimento.profissional.cidadeId"
+                :city-id="profissional.cidadeId"
               />
             </FormReviewFormat>
           </b-col>
@@ -55,10 +55,10 @@
           <b-col cols="12" xs="12" md="12">
             <FormReviewFormat
               label="Especialidade principal"
-              :show-empty-message="!atendimento.profissional.especialidadeId"
+              :show-empty-message="!profissional.atendimento.especialidadeId"
             >
               <SpecialtyInformation
-                :specialty-id="atendimento.profissional.especialidadeId"
+                :specialty-id="profissional.atendimento.especialidadeId"
               />
             </FormReviewFormat>
           </b-col>
@@ -67,7 +67,7 @@
         <b-row>
           <b-col cols="12" xs="12" md="12">
             <FormReviewFormat label="Preço da consulta">
-              {{ atendimento.preco | currency }}
+              {{ profissional.atendimento.preco | currency }}
             </FormReviewFormat>
           </b-col>
         </b-row>
@@ -77,12 +77,12 @@
             <FormReviewFormat
               label="Formas de pagamento da consulta"
               :show-empty-message="
-                !atendimento.formasPagamentoAtendimentos.length
+                !profissional.atendimento.formasPagamentoAtendimentos.length
               "
             >
               <PaymentMethodListInformation
                 :formas-pagamento-atendimento="
-                  atendimento.formasPagamentoAtendimentos
+                  profissional.atendimento.formasPagamentoAtendimentos
                 "
               />
             </FormReviewFormat>
@@ -104,12 +104,13 @@
 </template>
 
 <script>
-import Atendimentos from "@/domain/models/atendimentos";
+import Profissional from "@/domain/models/profissionais";
 import FormTitle from "@/components/typography/FormTitle.vue";
 import FormReviewFormat from "@/components/typography/FormReviewFormat.vue";
 import CityAndStateInformation from "@/components/info/CityAndStateInformation.vue";
 import SpecialtyInformation from "@/components/info/SpecialtyInformation.vue";
 import PaymentMethodListInformation from "@/components/info/PaymentMethodListInformation.vue";
+
 export default {
   components: {
     FormTitle,
@@ -119,9 +120,9 @@ export default {
     PaymentMethodListInformation,
   },
   props: {
-    atendimento: {
+    profissional: {
       type: Object,
-      default: () => new Atendimentos(),
+      default: () => new Profissional(),
       required: false,
     },
     extraRowGrid: {

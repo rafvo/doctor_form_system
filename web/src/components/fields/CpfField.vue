@@ -1,11 +1,10 @@
 <template>
   <div class="cpf-field">
-    <!-- cpf_exist -->
     <TextField
       v-model="Field"
       :autofocus="autofocus"
       :bind-value="bindValue"
-      default-rules="cpf"
+      default-rules="cpf|cpf_exist"
       :default-ref="defaultRef"
       :id="id"
       :label="label"

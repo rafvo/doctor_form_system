@@ -26,8 +26,8 @@
               <b-row>
                 <b-col>
                   <SpecialtyDropdownField
-                    v-model="atendimento.profissional.especialidadeId"
-                    :specialty-id="atendimento.profissional.especialidadeId"
+                    v-model="atendimento.especialidadeId"
+                    :specialty-id="atendimento.especialidadeId"
                     label="Especialidade principal"
                     required
                     with-label

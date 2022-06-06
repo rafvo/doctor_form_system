@@ -6,7 +6,7 @@
           <b-row>
             <b-col cols="12" xs="12" sm="12" md="12">
               <DoctorAboutProfessionalForm
-                :profissional="atendimento.profissional"
+                :profissional="profissional"
                 :loading="loading"
                 :extra-row-grid="6"
               >
@@ -30,12 +30,12 @@
       </StepperContent>
 
       <StepperContent step="2">
-        <StepperPreviousButton class="my-3"/>
+        <StepperPreviousButton class="my-3" />
         <Card>
           <b-row>
             <b-col cols="12" xs="12" md="12">
               <DoctorAboutServiceForm
-                :atendimento="atendimento"
+                :atendimento="profissional.atendimento"
                 :loading="loading"
                 :extra-row-grid="6"
               >
@@ -58,11 +58,14 @@
       </StepperContent>
 
       <StepperContent step="3">
-        <StepperPreviousButton class="my-3"/>
+        <StepperPreviousButton class="my-3" />
         <Card>
           <b-row>
             <b-col cols="12" xs="12" md="12">
-              <DoctorFormReview :atendimento="atendimento" :extra-row-grid="6">
+              <DoctorFormReview
+                :profissional="profissional"
+                :extra-row-grid="6"
+              >
                 <template #extraRow>
                   <ImageRender
                     image-loader-computed-prop="doctor3"
@@ -73,10 +76,20 @@
                 <template #submitButton>
                   <FooterRow>
                     <StepperSubmitRoundedButton
+                      v-if="editing"
+                      class="mt-3"
+                      title="Atualizar Profissional"
+                      :go-to-next-step="false"
+                      :loading="saving"
+                      centered
+                      @click:prevent="update"
+                    />
+                    <StepperSubmitRoundedButton
+                      v-else
                       class="mt-3"
                       title="Cadastrar Profissional"
                       :go-to-next-step="false"
-                      :loading="inserting"
+                      :loading="saving"
                       centered
                       @click:prevent="insert"
                     />
@@ -95,9 +108,14 @@
       </StepperContent>
 
       <StepperContent step="4">
-        <StepperPreviousButton />
+        <StepperNavigationRoundedButton
+          class="my-3"
+          title="Novo Cadastro"
+          :go-to-step="1"
+          @click:prevent="reset"
+        />
         <Card>
-          <h1>Página final</h1>
+          <ProfessionalTable @edit="edit" />
         </Card>
       </StepperContent>
     </Stepper>
@@ -105,7 +123,9 @@
 </template>
 
 <script>
-import Atendimentos from "@/domain/models/atendimentos";
+import { exist } from "@/util/exist";
+import _cloneDeep from "lodash/cloneDeep";
+import Profissional from "@/domain/models/profissionais";
 import Card from "@/components/cards/Card.vue";
 import FooterRow from "@/components/rows/FooterRow.vue";
 import ImageRender from "@/components/images/ImageRender.vue";
@@ -115,9 +135,11 @@ import StepperPreviousButton from "@/components/steppers/StepperPreviousButton.v
 import StepperNextButton from "@/components/steppers/StepperNextButton.vue";
 import StepperSubmitRoundedButton from "@/components/steppers/StepperSubmitRoundedButton.vue";
 import StepperNavigationLinkButton from "@/components/steppers/StepperNavigationLinkButton.vue";
+import StepperNavigationRoundedButton from "@/components/steppers/StepperNavigationRoundedButton.vue";
 import DoctorAboutProfessionalForm from "./DoctorAboutProfessionalForm.vue";
 import DoctorAboutServiceForm from "./DoctorAboutServiceForm.vue";
 import DoctorFormReview from "./DoctorFormReview.vue";
+import ProfessionalTable from "@/components/tables/ProfessionalTable.vue";
 
 export default {
   components: {
@@ -130,34 +152,68 @@ export default {
     StepperNextButton,
     StepperSubmitRoundedButton,
     StepperNavigationLinkButton,
+    StepperNavigationRoundedButton,
     DoctorAboutProfessionalForm,
     DoctorAboutServiceForm,
     DoctorFormReview,
+    ProfessionalTable,
   },
   props: {
-    atendimento: {
+    profissional: {
       type: Object,
-      default: () => new Atendimentos(),
+      default: () => new Profissional(),
       required: false,
     },
   },
   data() {
     return {
       loading: false,
-      inserting: false,
+      saving: false,
     };
+  },
+  computed: {
+    professionalId() {
+      return this.profissional.id;
+    },
+    editing() {
+      return exist(this.professionalId);
+    },
   },
   methods: {
     insert() {
-      this.inserting = true;
+      this.saving = true;
       setTimeout(() => {
+        this.$store.dispatch("profissionais/insert", {
+          professional: _cloneDeep(this.profissional),
+        });
         this.$toast.success("Cadastrado com sucesso!", {
           timeout: 2000,
         });
         this.$refs.stepper.nextStep();
-        this.inserting = false;
+        this.saving = false;
       }, 500);
     },
+    update() {
+      this.saving = true;
+      setTimeout(() => {
+        this.$store.dispatch("profissionais/update", {
+          id: this.professionalId,
+          professional: _cloneDeep(this.profissional),
+        });
+        this.$toast.success("Atualizado com sucesso!", {
+          timeout: 2000,
+        });
+        this.$refs.stepper.nextStep();
+        this.saving = false;
+      }, 500);
+    },
+    edit(payload) {
+      this.profissional.create(payload);
+      this.$refs.stepper.goToStep(1);
+    },
+    reset(){
+      this.profissional.create(new Profissional());
+    }
   },
 };
 </script>

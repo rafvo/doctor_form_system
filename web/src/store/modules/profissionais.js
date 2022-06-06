@@ -50,5 +50,11 @@ export default {
       professional.id = uniqueId();
       commit("insert", professional);
     },
+    update({ commit }, { id, professional = new Profissionais() }) {
+      commit("update", { id: id, model: professional });
+    },
+    delete({ commit }, professionalId) {
+      commit("delete", professionalId);
+    },
   },
 };

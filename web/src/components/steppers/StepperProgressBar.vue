@@ -14,6 +14,7 @@
  
 <script>
 import InlineRow from "../rows/InlineRow.vue";
+
 export default {
   components: { InlineRow },
   inject: ["stepper"],
