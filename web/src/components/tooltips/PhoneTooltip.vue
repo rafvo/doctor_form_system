@@ -1,9 +1,8 @@
 <template>
   <PopoverTooltip>
     <p>
-      O campo <strong>"Número de celular"</strong> deve aceitar só números, e
-      deve ter <code>11 dígitos</code>. E deve seguir o formato
-      <code>(00) 0 0000-0000</code>, exemplo: <code>(51) 9 2253-8347</code>.
+      O campo <strong>"Número de Telefone ou Celular"</strong> aceita apenas números, e
+      pode ter <code>10 dígitos (telefone) ou 11 digitos (celular)</code>
     </p>
   </PopoverTooltip>
 </template>
