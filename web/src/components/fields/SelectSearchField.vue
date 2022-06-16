@@ -16,7 +16,8 @@
         @click="dropdownIn"
       />
       <span
-        class="input-dropdown-btn cursor-pointer"
+        class="input-dropdown-btn arrow-2 arrow-down cursor-pointer"
+        :class="{ 'invalid-arrow': !valid }"
         @click="dropdownIn"
       ></span>
     </div>
@@ -122,6 +123,11 @@ export default {
     uniqueOptionKey: {
       type: String,
       default: "id",
+      required: false,
+    },
+    valid: {
+      type: Boolean,
+      default: false,
       required: false,
     },
   },
@@ -283,16 +289,9 @@ export default {
 }
 
 .input-dropdown-btn {
-  background-image: url("~@/assets/images/indicative-dropdown.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 7px 7px;
   position: absolute;
-  width: 30px;
-  top: 0;
-  right: 0;
-  height: 100%;
-  border-left: 1px solid #ddd;
+  top: 14px;
+  right: 10px;
 }
 
 .select-search-list {
@@ -307,6 +306,20 @@ export default {
 </style>
 
 <!--
+
+.input-dropdown-btn {
+  /* background-image: url("~@/assets/images/indicative-dropdown.png"); */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 7px 7px;
+  position: absolute;
+  width: 30px;
+  top: 0;
+  right: 0;
+  height: 100%;
+  border-left: 1px solid #ddd;
+}
+
 
     // seletedObject() {
     //   return this.options

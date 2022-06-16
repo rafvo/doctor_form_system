@@ -1,0 +1,18 @@
+.nav-tabs .nav-link {
+  border: none !important;
+}
+
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link {
+  color: $primary_0!important;
+  border-bottom: 2px solid $primary_0 !important;
+}
+
+
+.nav-fill .nav-item .nav-link, .nav-justified .nav-item .nav-link {
+  color: #cecece;
+}
+
+.nav-fill .nav-item .nav-link, .nav-justified .nav-item .nav-link.active {
+  color: $primary_0!important;
+}

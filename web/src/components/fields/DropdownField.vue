@@ -29,6 +29,7 @@
           :live-search="liveSearch"
           :search-placeholder="searchPlaceholder"
           :loading="loading"
+          :valid="!errors.length"
           @selected="setSelected"
         />
         <VeeValidateErrorMessage :vv-errors="errors" />

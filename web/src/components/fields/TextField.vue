@@ -3,9 +3,15 @@
     <b-row>
       <b-col>
         <b-form-group>
-          <label :class="{ required: requiredLabel }" :for="uniqueKey">{{
-            label
-          }}</label>
+          <InlineRow>
+            <FieldLabel
+              :label="label"
+              :required="requiredLabel"
+              :for-id="uniqueKey"
+            />
+            <slot name="labelComplement"></slot>
+          </InlineRow>
+
           <ValidationProvider
             :ref="providerRef"
             :vid="providerVid"
@@ -20,7 +26,7 @@
               :ref="fieldRef"
               :id="uniqueKey"
               :name="uniqueNameKey"
-              :state="isValid({isValid: valid, errors: errors })"
+              :state="isValid({ isValid: valid, errors: errors })"
               :type="type"
               :placeholder="placeholder"
             ></b-form-input>
@@ -34,11 +40,15 @@
 
 <script>
 import _cloneDeep from "lodash/cloneDeep";
-import { exist } from '@/util/exist'
+import { exist } from "@/util/exist";
+import InlineRow from "@/components/rows/InlineRow.vue";
+import FieldLabel from "@/components/label/FieldLabel.vue";
 import VeeValidateErrorMessage from "@/components/veeValidate/VeeValidateErrorMessage";
 
 export default {
   components: {
+    InlineRow,
+    FieldLabel,
     VeeValidateErrorMessage,
   },
   props: {
@@ -167,8 +177,8 @@ export default {
     },
   },
   methods: {
-    isValid({isValid = false, errors = []} = {}){
-      if(!exist(errors)) return true;
+    isValid({ isValid = false, errors = [] } = {}) {
+      if (!exist(errors)) return true;
 
       return isValid;
     },

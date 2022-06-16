@@ -23,13 +23,12 @@
 </template>
 
 <script>
-import { exist } from "@/util/exist";
-import stepperBus from "@/events/stepper";
+import StepperNavigation from "@/mixins/StepperNavigation";
 import InlineRow from "@/components/rows/InlineRow.vue";
 import LinkButton from "@/components/buttons/LinkButton.vue";
 
 export default {
-  inject: ["stepper", "stepperKey"],
+  mixins: [StepperNavigation],
   components: {
     InlineRow,
     LinkButton,
@@ -45,46 +44,11 @@ export default {
       default: false,
       required: false,
     },
-    goToStep: {
-      type: [String, Number],
-      default: 1,
-      required: false,
-    },
-  },
-  computed: {
-    existInjectedStepper() {
-      return exist(this.injectedStepper);
-    },
-    injectedStepper() {
-      return this.stepper();
-    },
-    currentStep() {
-      return this.existInjectedStepper
-        ? this.injectedStepper.currentStep
-        : null;
-    },
-    totalSteps() {
-      return this.existInjectedStepper ? this.injectedStepper.totalSteps : null;
-    },
-    validGoToStep() {
-      if (!this.currentStep) return false;
-      return this.goToStep ? Boolean(this.goToStep < this.currentStep) : false;
-    },
-    goToStepObject() {
-      return {
-        stepperKey: this.stepperKey(),
-        goToStep: this.goToStep,
-      };
-    },
   },
   methods: {
     onClickPrevent(event) {
       this.$emit("click:prevent", event);
-      this.rootEmit();
-    },
-    rootEmit() {
-      if (!this.validGoToStep) return;
-      stepperBus.emitGoToStep(this.goToStepObject);
+      this.stepperGoTo();
     },
   },
 };

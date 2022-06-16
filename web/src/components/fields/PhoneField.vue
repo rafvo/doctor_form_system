@@ -15,7 +15,11 @@
       :reset="reset"
       :type="type"
       :vid="vid"
-    />
+    >
+      <template #labelComplement>
+        <PhoneTooltip />
+      </template>
+    </TextField>
   </div>
 </template>
 
@@ -23,10 +27,12 @@
 import Vue from "vue";
 import _cloneDeep from "lodash/cloneDeep";
 import TextField from "./TextField.vue";
+import PhoneTooltip from "@/components/tooltips/PhoneTooltip.vue";
 
 export default {
   components: {
     TextField,
+    PhoneTooltip,
   },
   props: {
     autofocus: {
@@ -34,7 +40,7 @@ export default {
       default: false,
       required: false,
     },
-     bindValue: {
+    bindValue: {
       type: [String, Number],
       default: null,
       required: false,

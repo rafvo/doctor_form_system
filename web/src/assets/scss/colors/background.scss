@@ -1,0 +1,39 @@
+.bg {
+  &.primary-0 {
+    background: $primary_0;
+  }
+  &.primary-1 {
+    background: $primary_1;
+  }
+  &.primary-1-plus {
+    background: $primary_1_plus;
+  }
+
+  &.secondary-0 {
+    background: $secondary_0;
+  }
+  &.secondary-1-plus {
+    background: $secondary_1_plus;
+  }
+  &.secondary-2-plus {
+    background: $secondary_2_plus;
+  }
+  &.secondary-3-plus {
+    background: $secondary_3_plus;
+  }
+  &.secondary-4-plus {
+    background: $secondary_4_plus;
+  }
+  &.secondary-5-plus {
+    background: $secondary_5_plus;
+  }
+  &.secondary-6-plus {
+    background: $secondary_6_plus;
+  }
+  &.secondary-7-plus {
+    background: $secondary_7_plus;
+  }
+  &.secondary-8-plus {
+    background: $secondary_8_plus;
+  }
+}

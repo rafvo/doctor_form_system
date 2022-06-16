@@ -1,10 +1,11 @@
 <template>
   <div class="cpf-field">
+    <!-- cpf_exist -->
     <TextField
       v-model="Field"
       :autofocus="autofocus"
       :bind-value="bindValue"
-      default-rules="cpf|cpf_exist"
+      default-rules="cpf"
       :default-ref="defaultRef"
       :id="id"
       :label="label"
@@ -16,7 +17,11 @@
       :reset="reset"
       :type="type"
       :vid="vid"
-    />
+    >
+      <template #labelComplement>
+        <CpfTooltip />
+      </template>
+    </TextField>
   </div>
 </template>
 
@@ -24,10 +29,12 @@
 import Vue from "vue";
 import _cloneDeep from "lodash/cloneDeep";
 import TextField from "@/components/fields/TextField.vue";
+import CpfTooltip from "@/components/tooltips/CpfTooltip.vue";
 
 export default {
   components: {
     TextField,
+    CpfTooltip,
   },
   props: {
     autofocus: {

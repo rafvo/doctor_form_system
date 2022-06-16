@@ -9,13 +9,13 @@
     <template v-else>
       <ValidationObserver ref="observer">
         <b-form>
-          <b-row class="mb-3">
+          <b-row class="mb-3" v-if="withTitle">
             <b-col>
               <FormTitle title="Sobre o atendimento" />
             </b-col>
           </b-row>
 
-          <b-row class="mb-3">
+          <b-row class="mb-3" v-if="withSubtitle">
             <b-col>
               <FormSubtitle title="Detalhes do atendimento" />
             </b-col>
@@ -112,6 +112,16 @@ export default {
       default: "12",
       required: false,
     },
+    withTitle: {
+      type: Boolean,
+      default: false,
+      required: false,
+    },
+    withSubtitle: {
+      type: Boolean,
+      default: false,
+      required: false,
+    }
   },
   computed: {
     maxGrid() {

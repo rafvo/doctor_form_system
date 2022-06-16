@@ -2,6 +2,7 @@
   <div>
     <RoundedButton
       button-classes="bnt-cta-0"
+      :loading="loading"
       block
       uppercase-title
       @click="(event) => $emit('click', event)"
@@ -23,6 +24,11 @@ export default {
     title: {
       type: String,
       default: "Cadastrar Profissional",
+      required: false,
+    },
+    loading: {
+      type: Boolean,
+      default: true,
       required: false,
     },
   },

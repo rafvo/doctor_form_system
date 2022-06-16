@@ -13,26 +13,12 @@
 </template>
  
 <script>
-import InlineRow from "../rows/InlineRow.vue";
+import StepperInjection from "@/mixins/StepperInjection"
+import InlineRow from "@/components/rows/InlineRow.vue";
 
 export default {
+  mixins: [StepperInjection],
   components: { InlineRow },
-  inject: ["stepper"],
-  computed: {
-    injectedStepper() {
-      return this.stepper();
-    },
-    currentStep() {
-      return this.injectedStepper.currentStep
-        ? this.injectedStepper.currentStep
-        : 0;
-    },
-    totalSteps() {
-      return this.injectedStepper.totalSteps
-        ? this.injectedStepper.totalSteps
-        : 0;
-    },
-  },
 };
 </script>
 

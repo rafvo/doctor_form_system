@@ -7,11 +7,11 @@
 </template>
 
 <script>
-import stepperBus from "@/events/stepper";
+import StepperNavigation from "@/mixins/StepperNavigation";
 import IconButton from "@/components/buttons/IconButton.vue";
 
 export default {
-  inject: ["stepperKey"],
+  mixins: [StepperNavigation],
   components: {
     IconButton,
   },
@@ -25,11 +25,7 @@ export default {
   methods: {
     onClickPrevent(event) {
       this.$emit("click:prevent", event);
-      this.rootEmit();
-    },
-    rootEmit() {
-      if (!this.emitRootEvent) return;
-      stepperBus.emitPreviousClick(this.stepperKey());
+      if (this.emitRootEvent) this.stepperPrevious();
     },
   },
 };

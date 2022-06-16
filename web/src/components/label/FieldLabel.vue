@@ -1,6 +1,6 @@
 <template>
   <InlineRow>
-    <label :class="{ required: required }" class="mr-5">{{
+    <label :class="{ required: required }" class="mr-5" :for="forId">{{
       label
     }}</label>
   </InlineRow>
@@ -24,6 +24,11 @@ export default {
       default: false,
       required: false,
     },
+    forId: {
+      type: String,
+      default: "",
+      required: false,
+    }
   },
 };
 </script>

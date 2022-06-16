@@ -16,12 +16,12 @@
 </template>
 
 <script>
-import stepperBus from "@/events/stepper";
+import StepperNavigation from "@/mixins/StepperNavigation";
 import RoundedButton from "@/components/buttons/RoundedButton.vue";
 import StepperProgressBar from "@/components/steppers/StepperProgressBar.vue";
 
 export default {
-  inject: ["stepperKey"],
+  mixins: [StepperNavigation],
   components: {
     RoundedButton,
     StepperProgressBar,
@@ -46,11 +46,7 @@ export default {
   methods: {
     onClickPrevent(event) {
       this.$emit("click:prevent", event);
-      this.rootEmit();
-    },
-    rootEmit() {
-      if (!this.emitRootEvent) return;
-      stepperBus.emitNextClick(this.stepperKey());
+      if (this.emitRootEvent) this.stepperNext();
     },
   },
 };

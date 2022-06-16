@@ -9,13 +9,13 @@
     <template v-else>
       <ValidationObserver ref="observer">
         <b-form>
-          <b-row>
+          <b-row v-if="withTitle">
             <b-col class="mb-3">
               <FormTitle title="Sobre o profissional" />
             </b-col>
           </b-row>
 
-          <b-row class="mb-3">
+          <b-row class="mb-3" v-if="withSubtitle">
             <b-col>
               <FormSubtitle title="Dados do profissional" />
             </b-col>
@@ -32,7 +32,11 @@
                     placeholder="Digite o nome completo"
                     rules="required|min:3|max:48|alpha_spaces"
                     required-label
-                  />
+                  >
+                    <template #labelComplement>
+                      <NameTooltip />
+                    </template>
+                  </TextField>
                 </b-col>
               </b-row>
 
@@ -104,6 +108,7 @@ import TextField from "@/components/fields/TextField.vue";
 import CpfField from "@/components/fields/CpfField.vue";
 import PhoneField from "@/components/fields/PhoneField.vue";
 import CityDropdownField from "@/components/fields/CityDropdownField.vue";
+import NameTooltip from "@/components/tooltips/NameTooltip.vue";
 
 export default {
   components: {
@@ -114,6 +119,7 @@ export default {
     CpfField,
     PhoneField,
     CityDropdownField,
+    NameTooltip
   },
   props: {
     profissional: {
@@ -131,6 +137,16 @@ export default {
       default: "12",
       required: false,
     },
+    withTitle: {
+      type: Boolean,
+      default: false,
+      required: false,
+    },
+    withSubtitle: {
+      type: Boolean,
+      default: false,
+      required: false,
+    }
   },
   computed: {
     maxGrid() {

@@ -27,7 +27,6 @@ export default {
     return {
       stepperKey: () => this.componentKey,
       stepper: () => this.stepper,
-      stepperInstance: () => this,
     };
   },
   data() {
@@ -71,14 +70,24 @@ export default {
     validate() {
       return this.$refs.observer.validate();
     },
+    validGoToStep(step) {
+      return step ? Boolean(step < this.step) : false;
+    },
     goToStep(step) {
-      this.Step = step;
+      if (this.validGoToStep(step)) {
+        this.Step = step;
+
+      } else {
+        this.$toast.error(`Não é possível ir até o passo ${step}`, {
+          timeout: 2000,
+        });
+      }
     },
     previousStep() {
       if (this.isValidPreviousStep) this.Step--;
     },
     async nextStep() {
-      var valid = await this.validate();
+      const valid = await this.validate();
       if (!valid) return;
 
       if (this.isValidNextStep) this.Step++;
