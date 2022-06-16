@@ -2,7 +2,7 @@
   <PopoverTooltip>
     <p>
       O campo <strong>"Número de Telefone ou Celular"</strong> aceita apenas números, e
-      pode ter <code>10 dígitos (telefone) ou 11 digitos (celular)</code>
+      pode ter <code>10 dígitos (telefone)</code> ou <code>11 digitos (celular)</code>
     </p>
   </PopoverTooltip>
 </template>
